@@ -1,0 +1,6 @@
+# Messages for Task WALLS at IOI2000
+900  Member towns not increasing
+901  Duplicate town on area border
+902  Wall already traversed in this direction
+903  Wall borders on fewer than two areas
+910  NOT CHECKED derivability from planar graph

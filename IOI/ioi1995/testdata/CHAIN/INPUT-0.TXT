@@ -1,0 +1,8 @@
+i
+if
+in
+input
+int
+integer
+output
+.

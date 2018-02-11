@@ -1,0 +1,122 @@
+# This file is used by unit RobIn.  It is named RobInGen.msg.
+# It contains the general diagnostic messages.
+#
+# A line starting with '#', like this one, serves as comment and is ignored.
+# Other lines contain one diagnostic message each, structured as follows.
+# First a message number in the range from 1 through 999,
+# then a string of at most 50 characters.  Leading blanks are ignored.
+#
+# Convention for numbering:
+#    Message numbers 1 .. 255 are for Turbo Pascal Run-Time Errors;
+#    see TPRTerr.msg.  In any other number xyz,
+#      x relates to the diagnostic category,
+#      y to the routine producing the diagnostic (not for Internal W/E),
+#      z is a sequence number.
+#    The routines are numbered as follows
+#      0  OpenRIF, CloseRIF
+#      1  StepNextChar, HandleItemComposition
+#      2  ReadCharRif
+#      3  ReadIntegerRIF
+#      4  ReadStringRIF
+#      5  reserved
+#      6  ReadlnRIF
+#      7  AssertRIF
+#      8  OpenLogging, CloseLogging
+#      9  reserved
+#    There are some exceptions!
+#
+#    256 .. 299  Internal Errors, Internal Warnings
+#
+256  Empty CharSet
+260  Message table does not exist
+261  Invalid message number range
+270  Attempt to read past end-of-file
+271  NOpenRIF count incorrect
+#
+#    300 .. 399  Usage Warnings, Usage Errors
+#
+300  Empty string
+301  RIF not open
+302  RIF still open
+303  RIF already open
+304  Multiple RIF simultaneously open
+305  RIF never opened
+320  Empty character range
+322  Range allows only one item
+330  Empty integer range
+340  String length equal one prescribed
+341  Empty range for string length
+342  Maximum string length exceeds 255
+343  Negative minimum string length
+370  Message redefined
+371  Empty message
+372  Message number not in range
+373  Message too long
+374  Invalid line in message definition file
+375  Parameter assertDiag not in range
+#
+#    400 .. 499  Meta-Format Warnings
+#
+401  ReadlnRIF for last line missing
+420  Character follows integer on same line
+421  Blank prescribed before character
+430  Integer follows character on same line
+431  No blank prescribed before integer
+440  String not alone on line
+441  Blank prescribed before string
+#
+#    500 .. 599  Meta-Format Errors
+#
+500  Empty file prescribed
+520  Character contiguous after integer
+521  Range contains invalid character
+530  Integer contiguous after integer
+540  String contiguous after integer
+541  Preceding string not alone on line
+542  Empty string allowed
+560  Empty line prescribed
+#
+#    600 .. 699  Format Warnings
+#                (when Relaxed checking, Errors when Strict checking)
+#
+600  Whitespace after last line
+601  Non-whitespace after last line
+602  Last line has no explicit end-of-line
+610  Invalid character
+611  End-of-line between items on same format line
+612  Too many blanks before item
+613  Blank missing between items
+614  Empty line between two consecutive format lines
+630  Plus sign in integer
+660  Whitespace after last item on line
+661  Non-whitespace after last item on line
+#
+#    700 .. 799  Format Errors
+#
+710  Item missing
+720  Character not in range
+730  Not an integer
+731  Integer overflows 32 bit
+732  Integer not in range
+740  String character not in range
+741  String too long
+742  String too short
+#
+#    800 .. 899  Open/Close Info, Item Info, Whitespace Info, Debug Info
+#
+800  Opening file for robust reading
+801  File closed for robust reading
+802  Only checking meta-format rules
+803  Meta-format check ended
+810  Composition with preceding item
+820  Item value
+860  End-of-line
+880  File opened for logging
+881  File closed for logging
+882  Overall statistics
+890  Routine entry
+891  Routine exit
+#
+#    900 .. 999  Assert Errors
+#
+###  Task-specific, in separate file

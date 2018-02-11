@@ -1,0 +1,266 @@
+Uses RobIn  Version 0.4 (beta)  Copyright (c) 2000 T.Verhoeff @ TUE.NL
+
+RobIn: Open/Close Info 800
+  Opening file for robust reading ("CAR.IN")
+  Format "CAR.IN", Strict Checking
+RobIn: Format Error 732
+  Integer not in range (20000 not in [1..1000])
+  Format "CAR.IN", line     1, item     1, integer N
+  File   "CAR.IN", line     1, col.     6, char ' '
+  READING ABORTED
+N = 1
+M = 2
+RobIn: Usage Warning 322
+  Range allows only one item (2)
+  Format "CAR.IN", line     1, item     3, integer W
+W = 2
+RobIn: Open/Close Info 801
+  File closed for robust reading ("CAR.IN")
+
+      1  lines with      6  chars read from file
+      2  lines with      4  items processed from format
+
+      1  Usage Warning
+      1  Format Error
+      2  Open/Close Info
+  -----
+      4  Messages reported
+
+RobIn: Open/Close Info 800
+  Opening file for robust reading ("CAR1.IN")
+  Format "CAR.IN", Strict Checking
+N = 5
+M = 5
+W = 2
+RobIn: Open/Close Info 801
+  File closed for robust reading ("CAR1.IN")
+
+      2  lines with     14  chars read from file
+      2  lines with      8  items processed from format
+
+      2  Open/Close Info
+  -----
+      2  Messages reported
+
+# misplaced cars = 0 of 5
+All car types occur equally often
+
+RobIn: Open/Close Info 800
+  Opening file for robust reading ("CAR2.IN")
+  Format "CAR.IN", Strict Checking
+N = 12
+M = 10
+W = 5
+RobIn: Open/Close Info 801
+  File closed for robust reading ("CAR2.IN")
+
+      2  lines with     31  chars read from file
+      2  lines with     15  items processed from format
+
+      2  Open/Close Info
+  -----
+      2  Messages reported
+
+# misplaced cars = 10 of 12
+Car types occurring least often (1 times): 2 3 4 5 7 8 9 10
+Car types occurring most often (2 times): 1 6
+
+RobIn: Open/Close Info 800
+  Opening file for robust reading ("CAR3.IN")
+  Format "CAR.IN", Strict Checking
+N = 30
+M = 30
+W = 6
+RobIn: Open/Close Info 801
+  File closed for robust reading ("CAR3.IN")
+
+      2  lines with     87  chars read from file
+      2  lines with     33  items processed from format
+
+      2  Open/Close Info
+  -----
+      2  Messages reported
+
+# misplaced cars = 30 of 30
+All car types occur equally often
+
+RobIn: Open/Close Info 800
+  Opening file for robust reading ("CAR4.IN")
+  Format "CAR.IN", Strict Checking
+N = 300
+M = 50
+W = 12
+RobIn: Open/Close Info 801
+  File closed for robust reading ("CAR4.IN")
+
+      2  lines with    855  chars read from file
+      2  lines with    303  items processed from format
+
+      2  Open/Close Info
+  -----
+      2  Messages reported
+
+# misplaced cars = 293 of 300
+Car types occurring least often (1 times): 40 42
+Car types occurring most often (14 times): 16
+
+RobIn: Open/Close Info 800
+  Opening file for robust reading ("CAR5.IN")
+  Format "CAR.IN", Strict Checking
+N = 500
+M = 50
+W = 27
+RobIn: Open/Close Info 801
+  File closed for robust reading ("CAR5.IN")
+
+      2  lines with   1409  chars read from file
+      2  lines with    503  items processed from format
+
+      2  Open/Close Info
+  -----
+      2  Messages reported
+
+# misplaced cars = 485 of 500
+Car types occurring least often (3 times): 28 31
+Car types occurring most often (16 times): 25 30
+
+RobIn: Open/Close Info 800
+  Opening file for robust reading ("CAR6.IN")
+  Format "CAR.IN", Strict Checking
+RobIn: Format Error 732
+  Integer not in range (20000 not in [1..1000])
+  Format "CAR.IN", line     1, item     1, integer N
+  File   "CAR6.IN", line     1, col.     6, char ' '
+  READING ABORTED
+N = 1
+M = 2
+RobIn: Usage Warning 322
+  Range allows only one item (2)
+  Format "CAR.IN", line     1, item     3, integer W
+W = 2
+RobIn: Open/Close Info 801
+  File closed for robust reading ("CAR6.IN")
+
+      1  lines with      6  chars read from file
+      2  lines with      4  items processed from format
+
+      1  Usage Warning
+      1  Format Error
+      2  Open/Close Info
+  -----
+      4  Messages reported
+
+RobIn: Open/Close Info 800
+  Opening file for robust reading ("CAR7.IN")
+  Format "CAR.IN", Strict Checking
+RobIn: Format Error 732
+  Integer not in range (20000 not in [1..1000])
+  Format "CAR.IN", line     1, item     1, integer N
+  File   "CAR7.IN", line     1, col.     6, char ' '
+  READING ABORTED
+N = 1
+M = 2
+RobIn: Usage Warning 322
+  Range allows only one item (2)
+  Format "CAR.IN", line     1, item     3, integer W
+W = 2
+RobIn: Open/Close Info 801
+  File closed for robust reading ("CAR7.IN")
+
+      1  lines with      6  chars read from file
+      2  lines with      4  items processed from format
+
+      1  Usage Warning
+      1  Format Error
+      2  Open/Close Info
+  -----
+      4  Messages reported
+
+RobIn: Open/Close Info 800
+  Opening file for robust reading ("CAR8.IN")
+  Format "CAR.IN", Strict Checking
+RobIn: Format Error 732
+  Integer not in range (20000 not in [1..1000])
+  Format "CAR.IN", line     1, item     1, integer N
+  File   "CAR8.IN", line     1, col.     6, char ' '
+  READING ABORTED
+N = 1
+M = 2
+RobIn: Usage Warning 322
+  Range allows only one item (2)
+  Format "CAR.IN", line     1, item     3, integer W
+W = 2
+RobIn: Open/Close Info 801
+  File closed for robust reading ("CAR8.IN")
+
+      1  lines with      6  chars read from file
+      2  lines with      4  items processed from format
+
+      1  Usage Warning
+      1  Format Error
+      2  Open/Close Info
+  -----
+      4  Messages reported
+
+RobIn: Open/Close Info 800
+  Opening file for robust reading ("CAR9.IN")
+  Format "CAR.IN", Strict Checking
+RobIn: Format Error 732
+  Integer not in range (20000 not in [1..1000])
+  Format "CAR.IN", line     1, item     1, integer N
+  File   "CAR9.IN", line     1, col.     6, char ' '
+  READING ABORTED
+N = 1
+M = 2
+RobIn: Usage Warning 322
+  Range allows only one item (2)
+  Format "CAR.IN", line     1, item     3, integer W
+W = 2
+RobIn: Open/Close Info 801
+  File closed for robust reading ("CAR9.IN")
+
+      1  lines with      6  chars read from file
+      2  lines with      4  items processed from format
+
+      1  Usage Warning
+      1  Format Error
+      2  Open/Close Info
+  -----
+      4  Messages reported
+
+RobIn: Open/Close Info 800
+  Opening file for robust reading ("CAR10.IN")
+  Format "CAR.IN", Strict Checking
+RobIn: Format Error 732
+  Integer not in range (20000 not in [1..1000])
+  Format "CAR.IN", line     1, item     1, integer N
+  File   "CAR10.IN", line     1, col.     6, char ' '
+  READING ABORTED
+N = 1
+M = 2
+RobIn: Usage Warning 322
+  Range allows only one item (2)
+  Format "CAR.IN", line     1, item     3, integer W
+W = 2
+RobIn: Open/Close Info 801
+  File closed for robust reading ("CAR10.IN")
+
+      1  lines with      6  chars read from file
+      2  lines with      4  items processed from format
+
+      1  Usage Warning
+      1  Format Error
+      2  Open/Close Info
+  -----
+      4  Messages reported
+
+RobIn: Open/Close Info 882 in EndLogging
+  Overall statistics
+     11  files processed
+
+      6  Usage Warning
+      6  Format Error
+     23  Open/Close Info
+  -----
+     35  Messages reported
+

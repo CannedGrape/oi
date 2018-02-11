@@ -1,0 +1,5 @@
+# Assert messages for task BLOCK at IOI2000
+900  Blocks not sorted on block type
+901  Duplicate unit cube within 3D-solid
+902  3D-solid not connected
+903  NOT CHECKED for duplicate blocks in LIB.IN

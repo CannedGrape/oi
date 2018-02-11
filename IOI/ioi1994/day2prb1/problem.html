@@ -1,0 +1,96 @@
+<HTML>
+<HEAD>
+<TITLE>IOI'94 - Day 2 - Problem 1: The Clocks</TITLE>
+</HEAD>
+<BODY>
+<H1>IOI'94 - Day 2 - Problem 1: The Clocks</H1>
+
+<PRE>
+|-------|    |-------|    |-------|    
+|       |    |       |    |   |   |    
+|---O   |    |---O   |    |   O   |          
+|       |    |       |    |       |           
+|-------|    |-------|    |-------|    
+    A            B            C
+
+|-------|    |-------|    |-------|
+|       |    |       |    |       |
+|   O   |    |   O   |    |   O   |
+|   |   |    |   |   |    |   |   |
+|-------|    |-------|    |-------|
+    D            E            F
+
+|-------|    |-------|    |-------|
+|       |    |       |    |       |
+|   O   |    |   O---|    |   O   |
+|   |   |    |       |    |   |   |
+|-------|    |-------|    |-------|  (Figure 1)
+    G            H            I
+</PRE>
+<HR>
+
+There are nine clocks in a 3*3 array (figure 1).
+The goal is to return all the dials to 12 o'clock with as few moves as possible.
+There are nine different allowed ways to turn the dials on the clocks.
+Each such way is called a move.
+Select for each move a number 1 to 9.
+That number will turn the dials 90' (degrees) clockwise on those clocks
+which are affected according to figure 2 below.
+
+<H2>Input Data</H2>
+
+Read nine numbers from the <KBD>INPUT.TXT</KBD> file.
+These numbers give the start positions of the dials.
+0=12 o'clock, 1=3 o'clock, 2=6 o'clock, 3=9 o'clock.
+The example in figure 1 gives the following input data file:
+<PRE>
+3 3 0
+2 2 2 
+2 1 2
+</PRE>
+
+<H2>Output Data</H2>
+
+Write to the <KBD>OUTPUT.TXT</KBD> file a shortest sequence of moves (numbers),
+which returns all the dials to 12 o'clock.
+In case there are many solutions, only one is required.
+In our example the <KBD>OUTPUT.TXT</KBD> file could look as follows:
+<PRE>
+5849
+</PRE>
+
+<A NAME="Fig2"><HR></A>
+<PRE>
+Move   Affected clocks
+ 
+ 1         ABDE
+ 2         ABC
+ 3         BCEF
+ 4         ADG
+ 5         BDEFH
+ 6         CFI
+ 7         DEGH
+ 8         GHI
+ 9         EFHI    (Figure 2)
+</PRE>
+<HR>
+
+<H2>Example of Method</H2>
+
+Each number represents a time accoring to following table:
+
+<PRE>
+0 = 12 o'clock
+1 = 3 o'clock
+2 = 6 o'clock 
+3 = 9 o'clock
+</PRE>
+ 
+<PRE>
+3 3 0         3 0 0         3 0 0          0 0 0         0 0 0 
+2 2 2   5->   3 3 3   8->   3 3 3   4 ->   0 3 3   9->   0 0 0 
+2 1 2         2 2 2         3 3 3          0 3 3         0 0 0 
+</PRE>
+
+</BODY>
+</HTML>

@@ -1,0 +1,440 @@
+<HTML>
+<HEAD>
+<TITLE>IOI'94 - Day 2 - Solution 3: The Circle</TITLE>
+</HEAD>
+<BODY>
+<H1>IOI'94 - Day 2 - Solution 3: The Circle</H1>
+
+<H2>[ <A HREF="../solution.html">Introduction</A> ]
+    [ <A HREF="problem.html">Problem Statement</A> ]
+    [ <A HREF="index.html">Test Data</A> ]</H2>
+
+<H2>Problem Analysis</H2>
+
+Let me start by introducing some terminology,
+given a circular arrangement of numbers.
+Number <KBD>p</KBD> (not necessarily appearing in the circular arrangement)
+is said to be <EM>creatable</EM>,
+when there is a segment of one or more adjacent numbers
+in the circular arrangement with sum <KBD>p</KBD>.
+The <EM>tail</EM> of number <KBD>m</KBD> is defined as the number <KBD>t</KBD>,
+<KBD>t &gt;= m</KBD>, such that all numbers from <KBD>m</KBD> to <KBD>t</KBD>
+are creatable and number <KBD>t+1</KBD> is not creatable
+(if <KBD>m</KBD> is not creatable then its tail is defined as <KBD>m-1</KBD>).
+<P>
+
+We can now reformulate the problem as follows.
+Given are numbers <KBD>n</KBD>, <KBD>m</KBD>, and <KBD>k</KBD>
+with <KBD>1 &lt;= n &lt;= 6</KBD> and
+<KBD>1 &lt;= m,k &lt;= 20</KBD>.
+The objective is to find <EM>all</EM> circular arrangements
+of <KBD>n</KBD> numbers, each number being at least <KBD>k</KBD>,
+such that the tail of <KBD>m</KBD> is as large as possible.
+It is also required to output that tail.
+In fact, the problem statement prescribes the output more precisely:
+the first line contains the maximum tail,
+the following lines present the circular arrangements (one per line),
+such that they start with their smallest number.
+<P>
+
+Observe that creatable numbers are at least <KBD>k</KBD>.
+Thus, for <KBD>m &lt; k</KBD> the tail of <KBD>m</KBD> is <KBD>m-1</KBD>,
+because <KBD>m</KBD> itself is not creatable.
+For <KBD>k &lt;= m</KBD> the maximum tail is <EM>at least</EM> <KBD>m+n-1</KBD>,
+because of the circular arrangement consisting of the <KBD>n</KBD> numbers
+<KBD>m</KBD>, <KBD>m+1</KBD>, ..., <KBD>m+n-1</KBD> <EM>in arbitrary order</EM>.
+Since in the output these arrangements should all start with the smallest
+number---that is, with <KBD>m</KBD>---there are <KBD>(n-1)!</KBD> such
+arrangements.
+These arrangements and also their tail are called <EM>trivial</EM>.
+The trivial tail is a <EM>lower bound</EM> on the maximum tail
+(provided that <KBD>m &gt;= k</KBD>).
+<P>
+
+<STRONG>N.B.</STRONG>
+The number <KBD>(n-1)!</KBD> of trivial arrangements is <EM>not</EM>
+an <EM>upper bound</EM> on the number of arrangements to be output.
+In fact, it turns out that the input <KBD>n,m,k = 5,10,5</KBD>
+has 32 arrangements for the maximum tail of 14.
+<P>
+
+<BLOCKQUOTE>
+From now on we assume <KBD>k &lt;= m</KBD>
+(the <A HREF="../index.html#grading">Competition Rules</A> explicitly state
+that all test data will have solutions; this also implies that 1 is a
+<EM>lower bound</EM> on the number of arrangements to be output).
+Furthermore, when we speak of the tail, we mean the tail of <KBD>m</KBD>.
+</BLOCKQUOTE>
+<P>
+
+The cases <KBD>n = 1, 2, 3</KBD> are special,
+because <EM>every</EM> non-empty subset of the numbers appears as
+a segment of adjacent numbers in the circle.
+The case <KBD>n=1</KBD> is uninteresting: the maximum tail is <KBD>m</KBD>
+obtained by the unique arrangement <KBD>m</KBD>.
+<P>
+
+The cases <KBD>n = 2, 3</KBD> can also be solved ``by hand'',
+but they are tricky!
+For instance, for <KBD>n=2</KBD> and <KBD>m &gt; 1</KBD> there is
+the arrangement <KBD>m</KBD>, <KBD>m+1</KBD> yielding the maximum
+tail <KBD>m+1</KBD>
+(observe that <KBD>m+2</KBD> is not creatable since <KBD>2m+1 &gt; m+2</KBD>).
+But if <KBD>k=1</KBD> then there is also the arrangement
+<KBD>m</KBD>, <KBD>1</KBD> yielding tail <KBD>m+1</KBD>.
+If <KBD>m=1</KBD>, then the arrangement <KBD>1</KBD>, <KBD>2</KBD>
+yields the maximum tail <KBD>m+2 = 3</KBD>.
+<P>
+
+We have already given the lower bound <KBD>m+n-1</KBD> on the maximum tail.
+We can also give an <EM>upper bound</EM>.
+The maximum tail is at most the sum of all numbers in the circle.
+This upper bound is not very instructive.
+Observe that for <KBD>1 &lt;= p &lt; n</KBD>,
+there are <KBD>n</KBD> segments of <KBD>p</KBD> adjacent numbers,
+Furthermore, there is a single segment of <KBD>n</KBD> adjacent numbers
+(consisting of <EM>all</EM> numbers in the circle).
+Thus, in total there are <KBD>(n-1)*n+1</KBD> segment sums.
+In the best case every such segment creates a different number.
+This means that the maximum tail is at most <KBD>m+(n-1)*n</KBD>.
+<P>
+
+
+<H3>Systematic investigation of arrangements</H3>
+
+Let us introduce some constants, types, and variables:
+<PRE>
+const
+  Max_n =  6;
+  Max_m = 20;
+  Max_k = 20;
+
+type
+  Circle = array [1..Max_n] of integer; { intended: array [1..n] of integer }
+
+var
+  n: 1..Max_n; { input value }
+  m: 1..Max_m; { input value }
+  k: 1..Max_k; { input value }
+</PRE>
+Reading the input is easy.
+After that we will go through all possible arrangements once and store the best
+arrangements so far.
+<PRE>
+var
+  BestCount: integer; { # best arrangements so far }
+  BestArr: array [1..1000] of Circle;
+    { BestArr[1..BestCount] = best arrangements so far }
+  BestTail: integer; { maximum tail found so far }
+</PRE>
+It is not clear at this point what upper bound to choose for the
+array <KBD>BestArr</KBD> with best arrangements so far.
+We have just picked 1000.
+If there is enough time, then we could first go through the possible
+arrangements to find out what the maximum tail is and
+in a second phase go through the arrangements again to
+filter out the ones that have this maximum tail
+(possibly exploiting knowledge about the maximum tail).
+That would avoid storing an unknown number of intermediate results.
+Yet another solution is presented later.
+<P>
+The final output is produced by procedure <KBD>WriteOutput</KBD>:
+<PRE>
+procedure WriteOutput;
+  var i, j: integer;
+  begin
+  writeln(out, BestTail:1) ;
+  for i := 1 to BestCount do begin
+    for j := 1 to n do write(out, ' ', BestArr[i][j]:2) ;
+    writeln(out)
+    end { for i } ;
+  if Test then writeln('Max tail = ', BestTail:1, '; # arr. = ', BestCount:1)
+  end { WriteOutput } ;
+</PRE>
+We will use the following global variables for constructing and
+checking arrangements:
+<PRE>
+var
+  Arr: Circle; { Arr[1..n] is the circular arrangement }
+  Tail: integer; { tail of Arr[1..n] }
+</PRE>
+Given an arrangement of <KBD>n</KBD> numbers,
+procedure <KBD>ComputeTail</KBD> determines the tail of <KBD>m</KBD>.
+The idea is to compute the sums of all segments of adjacent
+numbers in the circular arrangement <KBD>Arr</KBD>.
+This generates the set of creatable numbers,
+from which the tail is readily derived.
+<PRE>
+procedure ComputeTail;
+  { post: Tail = tail of m for circular arrangement Arr[1..n] }
+  var
+    a, b, s, u: integer ;
+    Creatable: array[1..51] of boolean ; { Creatable[i] = i is creatable }
+  begin
+  u := 1 + m + (n-1)*n ; { 1 + upper bound on maximum tail }
+  for a := 1 to u do Creatable[a] := false ;
+  for a := 1 to n do begin
+    s := 0 ; { s = sum of Arr[a..b] }
+    for b := a to n do begin
+      s := s + Arr[b] ;
+      if s &lt;= u then Creatable[s] := true
+      end { for b } ;
+    for b := 1 to a-2 do begin
+      s := s + Arr[b] ;
+      if s &lt;= u then Creatable[s] := true
+      end { for b }
+    end { for a } ;
+  Tail := m ; { linear search for smallest uncreatable number }
+  while Creatable[Tail] do inc(Tail) ;
+  dec(Tail)
+  end { ComputeTail } ;
+</PRE>
+There are a few things to be pointed out about <KBD>ComputeTail</KBD>.
+Because of our choice for <KBD>u</KBD> we know that at least one
+of the numbers from <KBD>m</KBD> to <KBD>u</KBD> is <EM>not</EM> creatable.
+In the for-loops, <KBD>a</KBD> is the first sector of the segments
+considered.
+The first <KBD>b</KBD>-loop considers segments that start at
+sector <KBD>a</KBD> and that do not cycle beyond sector <KBD>n</KBD>.
+The second <KBD>b</KBD>-loop cycles around to sector 1 and beyond.
+Here we need not go further than <KBD>a-2</KBD> because the segment
+consisting of all numbers was already coverd by the first loop for
+<KBD>a = 1</KBD> (strictly speaking it has not first sector).
+<P>
+For each arrangement constructed,
+the variables <KBD>t</KBD>, <KBD>BestArr</KBD>, <KBD>BestTail</KBD>
+are updated by procedure <KBD>CheckArrangemant</KBD>:
+<PRE>
+procedure CheckArrangement;
+  begin
+  ComputeTail ;
+  if Tail &gt; BestTail then begin { improved arrangement }
+    BestCount := 1 ; BestArr[BestCount] := Arr ; BestTail := Tail
+    end { then }
+  else if Tail = BestTail then begin { another arrangement with same tail }
+    inc(BestCount) ; BestArr[BestCount] := Arr
+    end { then }
+  end { CheckArrangement } ;
+</PRE>
+We would like to write <KBD>n</KBD> nested for-loops to go through
+all possible arrangements.
+This is a little difficult since <KBD>n</KBD> is a variable.
+It can be accomplished by a recursive procedure.
+We have named it <KBD>FillRemainder</KBD>.
+The outermost loop is a special case treated below.
+<PRE>
+procedure FillRemainder(i: integer);
+  { Fill remaining sectors Arr[i..n] in all possible ways }
+  { pre: i &gt; 1 }
+  var j, u: integer;
+  begin
+  if i &gt; n then { all sectors filled, check whether arrangement is useful }
+    CheckArrangement
+  else begin { fill sector i in all possible ways }
+    if Trace then begin
+      for j := 1 to pred(i) do write(Arr[j]:3) ;
+      writeln
+      end { if } ;
+    u := m+(n-1)*n ; { naive upper bound on numbers to try }
+    for j := Arr[1] to u do begin { N.B. Arr[1] is smallest number }
+      Arr[i] := j ;
+      FillRemainder(succ(i))
+      end { for j }
+    end { then }
+  end { FillRemainder } ;
+</PRE>
+The for-loop tries all possible numbers <KBD>j</KBD> at sector <KBD>i</KBD>.
+Since sector 1 contains the smallest number, <KBD>j</KBD> can start
+at <KBD>Arr[1]</KBD>.
+the upper bound for <KBD>j</KBD> is less straightforward.
+We have picked <KBD>m+(n-1)*n</KBD> because this is the upper bound
+on the maximum tail.
+It does not make sense to include larger numbers.
+It should be noted that this upper bound is rather rough,
+and may cause the investigation of too many arrangements.
+<P>
+
+Procedure <KBD>FillRemainder</KBD> is called by procedure
+<KBD>ComputeAnswer</KBD> that also provides the outermost for-loop:
+<PRE>
+procedure ComputeAnswer;
+  { pre: k &lt;= m }
+  var j: integer;
+  begin
+  BestCount := 0 ; BestTail := m+n-1 ;
+  for j := k to m do begin
+    Arr[1] := j ; { N.B. this is the smallest number in the circle }
+    FillRemainder(2) ;
+    end { for j }
+  end { ComputeAnswer } ;
+</PRE>
+The only numbers to try in sector 1 are from <KBD>k</KBD> to <KBD>m</KBD>,
+since smaller numbers are not allowed by definition, and with larger
+numbers <KBD>m</KBD> would not even be creatable.
+Note that for the best arrangements we need not necessarily have
+<KBD>Arr[1] = m</KBD>.
+An example is provided by the fourth test case
+(see <A HREF="input-4.txt">input-4.txt</A> and
+<A HREF="output-4.txt">output-4.txt</A>).
+<P>
+
+All of this is put together into <A HREF="program1.pas">Program 1</A>.
+This program solves test cases 1, 2, and 4 within the time limit;
+for the others that is doubtful.
+<P>
+
+Another remark about Program 1 is that
+if <KBD>BestTail</KBD> would be initialized to 0 instead of <KBD>m+n-1</KBD>,
+then the input combination <KBD>n,m,k = 5,17,5</KBD> would cause an
+overflow of the list of (intermediate) best arrangements:
+the program would have to skip 1261 arrangements with tail 20,
+before finding the first arrangement with (maximum) tail 21
+(of which there are only 24).
+It is hard to give an upper bound of the number of (intermediate)
+best arrangements.
+In the next program we will just start writing the best arrangements
+to the output file, and overwrite it if we find an improvement.
+<P>
+
+
+<H2>Program 2</H2>
+What improvements can we make to speed up Program 1?
+Why is it too slow?
+There are two things that come to mind.
+The first is that too many arrangements are checked.
+A reason for this could be that the upper bound <KBD>u</KBD> for <KBD>j</KBD>
+in procedure <KBD>FillRemainder</KBD> is unnecessarily large.
+The second is that when determining the tails of arrangements
+a lot of computations are duplicated.
+Observe that two arrangements that differ only in one sector
+share about half of their creatable numbers.
+<P>
+
+It is difficult to improve the speed by avoiding duplicate
+computations when determining tails of arrangements.
+The main reason for this is that <KDB>(n-1)*n/2 + 1</KBD> of the
+<KBD>(n-1)*n+1</KBD> segment sums
+can only be computed when the <EM>last</EM> sector has been filled in.
+For <KBD>n=6</KBD> there are 31 segment sums to be computed,
+of which 16 involve on the last sector.
+<P>
+
+At the expensive of some overhead we can determine a tighter upper bound,
+though this is a bit complicated.
+Let us take the case <KBD>n,m,k = 5,3,1</KBD> as an example.
+Consider a state where the first three sectors have been filled as follows:
+<PRE>
+    i  |  1   2   3   4   5
+-------|-------------------
+Arr[i] |  3   5   7
+</PRE>
+The call <KBD>FillRemainder(4)</KBD> will try numbers
+at <KBD>Arr[4]</KBD> starting from 3 up to some upper bound.
+In Program 1 this upper bound is 23.
+In fact, Program 1 will check 708,578 arrangements
+(and for each arrangement the tail of <KBD>m</KBD> is determined).
+<P>
+
+The three sectors that have been filled in already determine 6 segment sums.
+Here is a table indicating the creatable numbers:
+<PRE>
+          Creatable | 3   5   7 8         12       15   
+--------------------|-----------------------------------
+not (yet) Creatable |   4   6     9 10 11    13 14    16
+</PRE>
+Filling in sector 4 with number <KBD>j</KBD> implies that the 11 (!) segment
+sums involving <KBD>Arr[4]</KBD> will be at least <KBD>j</KBD>.
+In total there are 21 segment sums, so there are only 21-11-6=4
+segment sums that involve <KBD>Arr[5]</KBD> and <EM>not</EM> <KBD>Arr[4]</KBD>.
+<P>
+
+Assume we try <KBD>j &gt;= 12</KBD>
+then all 11 segment sums involving <KBD>Arr[4]</KBD> will at least 12,
+and the 4 remaining segment sums involving <KBD>Arr[5]</KBD>
+can then at best create the number 4, 6, 9, and 10.
+This would leave 11 uncreatable, yielding a tail of at most 10.
+Apparently, a good upper bound for <KBD>j</KBD> is 11
+(quite a bit less than 23).
+<P>
+
+More in general, a better upper bound is obtained by determining
+which numbers are already creatable, and by calculating the
+number <KBD>q</KBD> of segment sums that involve <KBD>Arr[i+1..n]</KBD> and
+<EM>not</EM> <KBD>Arr[i]</KBD>.
+The segment sums involving <KBD>Arr[i]</KBD> are all at least <KBD>Arr[i]</KBD>,
+and there will be at most <KBD>q</KBD> smaller segment sums created
+from <KBD>Arr[i+1..n]</KBD>.
+The (<KBD>q+1</KBD>)th number that is not yet creatable is a suitable
+upper bound for <KBD>Arr[i]</KBD> because beyond that point the tail
+can no longer grow.
+<P>
+
+Here is procedure <KBD>ComputeUpperBound</KBD> that computes
+the improved upper bound:
+<PRE>
+procedure ComputeUpperBound(i: integer; var ub: integer);
+  { post: ub = upper bound for Arr[i] based on Arr[1..i-1] }
+  var
+    a, b, s, u: integer ;
+    Creatable: array[1..51] of boolean ; { Creatable[p] = p is creatable }
+  begin
+  u := 1 + m + (n-1)*n ; { 1 + upper bound on maximum tail }
+  for a := 1 to u do Creatable[a] := false ;
+  for a := 1 to pred(i) do begin
+    s := 0 ; { s = sum of Arr[a..b] }
+    for b := a to pred(i) do begin
+      s := s + Arr[b] ;
+      if s <= u then Creatable[s] := true
+      end { for b } ;
+  a := n - i ; { a = # unfilled sectors besides Arr[i] }
+  a := n*a - (a*succ(a)) div 2 + 1 ;
+  { a = 1 + # segment sums involving Arr[i+1..n] and not Arr[i] }
+  ub := m ;
+  while a <> 0 do begin
+    while Creatable[ub] do inc(ub) ;
+    inc(ub) ; dec(a)
+    end { while }
+  end { ComputeUpperBound } ;
+</PRE>
+This is incorporated into a <A HREF="program2.pas">Program 2</A>.
+For the case <KBD>n,m,k = 5,3,1</KBD> now only 15,173 arrangements are
+checked.
+The case <KBD>n,m,k = 6,1,1</KBD> drops from 28,629,151 arrangements
+checked by Program 1 to 156,072 by Program 2.
+
+
+<H2>Variants of this problem</H2>
+What if sectors may be used more than once?
+We still require that they are adjacent.
+For example, for <KBD>n=4</KBD>, we could have a segment involving
+the 5 sectors 2, 3, 4, 1, 2 (sector 2 being used twice).
+<P>
+
+Given <KBD>n,m,k</KBD> find the tail of <KBD>m</KBD> with the most arrangements.
+Each arrangement yields a tail of <KBD>m</KBD>.
+We are now interested in maximimizing the number of arrangements
+that yield the same tail (instead of maximizing the tail).
+<P>
+
+Find all triples <KBD>n,m,k</KBD> such that
+for the maximum tail of <KBD>m</KBD> there is at least one arrangement
+whose smallest number is less than <KBD>m</KBD>.
+<P>
+
+Find all triples <KBD>n,m,k</KBD> such that their maximum tails
+have a maximum number of arrangements.
+I noticed that <KBD>n,m,k = 6,19,6</KBD> has maximum tail 24
+for which there are 150 arrangements.
+Can you find triples with more arrangements for their maximum tail?
+<P>
+
+To help you on your way, the file <A HREF="all.txt">all.txt</A>
+lists for each case its maximum tail and the number of corresponding
+arrangements.
+<P>
+
+<HR>
+<A HREF="http://www.win.tue.nl/~wstomv/">Tom Verhoeff</A><BR>
+<A HREF="http://www.tue.nl/english/">Eindhoven University of Technology</A>
+</BODY>
+</HTML>

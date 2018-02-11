@@ -1,0 +1,569 @@
+<HTML>
+<HEAD>
+<TITLE>IOI'94 - Day 2 - Solution 2: The Buses</TITLE>
+</HEAD>
+<BODY>
+<H1>IOI'94 - Day 2 - Solution 2: The Buses</H1>
+
+<H2>[ <A HREF="../solution.html">Introduction</A> ]
+    [ <A HREF="problem.html">Problem Statement</A> ]
+    [ <A HREF="index.html">Test Data</A> ]</H2>
+
+<H2>Problem Analysis</H2>
+
+<H3>Bus routes</H3>
+A bus route is characterized by the time of its first arrival
+at the bus stop (in minutes after 12:00)
+and its interval (number of minutes between successive stops).
+These two numbers determine how often a bus route stops at the observed
+bus stop from 12:00 to 12:59.
+Because this number of stops plays an important role,
+it will be included with the other information to describe a bus route.
+Here is the definition of type <KBD>BusRoute</KBD>:
+<PRE>
+type
+  BusRoute = record
+    first   : 0..29;
+    interval: 1..59; { in fact, first &lt; interval &lt;= 59 - first }
+    howoften: 2..60; { howoften = 1 + (59 - first) div interval }
+    end;
+</PRE>
+The lower bound on <KBD>first</KBD> is zero by definition.
+The upper bound and the bounds on <KBD>interval</KBD> are less straighforward
+and we will now explain them.
+<P>
+
+Observe that the <A HREF="problem.html">problem statement</A> implies
+<KBD>first &lt; interval</KBD>,
+since buses are known to arrive <EM>throughout the entire hour</EM>.
+If <KBD>first &gt;= interval</KBD>, then there would have been
+a stop earlier than <KBD>first</KBD> at time <KBD>first-interval &gt;= 0</KBD>,
+which contradicts the definition of <KBD>first</KBD>.
+Also observe that the second bus arrives at time <KBD>first+interval</KBD> and
+since buses are known to stop at least twice we therefore have
+<KBD>first + interval &lt;= 59</KBD>.
+This explains the bounds on <KBD>interval</KBD>.
+The upper bound on <KBD>first</KBD> can be obtained by adding the
+inequalities for <KBD>first</KBD>:
+<PRE>
+  first &lt;       interval
+  first &lt;= 59 - interval
+------------------------ +
+2*first &lt;  59
+</PRE>
+from which we infer <KBD>first &lt;= 29</KBD>.
+The number <KBD>howoften</KBD> is determined by the two inequalities:
+<PRE>
+first + (howoften-1)*interval &lt;= 59
+first +  howoften   *interval &gt;  59
+</PRE>
+These can be rewritten into
+<PRE>
+59-first - interval &lt; (howoften-1) * interval &lt;= 59-first
+</PRE>
+from which we infer <KBD>howoften = 1 + (59-first) div interval</KBD>.
+So much for the bounds.
+Question: How many bus routes are there?
+<P>
+
+Here is procedure for writing a bus route in a graphically appealing way.
+It is useful during devopment and will help understand the problem better.
+<PRE>
+procedure GraphBusRoute(var f: text; b: BusRoute);
+  var i: integer;
+  begin   
+  with b do begin
+    write(f, 1:first+1) ;
+    i := first + interval ;
+    while (i &lt;= 59) do begin
+      write(f, 1:interval) ;
+      i := i + interval
+      end { while } ;
+    write(f, ' ':62-i+interval) ;
+    writeln(f, '[', first:2, ',', interval:2, ',', howoften:2, ']')
+    end { with }
+  end { GraphBusRoute } ;
+</PRE>
+<KBD>GraphBusRoute</KBD> writes a tally for each arrival of the bus route.
+The locations of the tallies on the output line correspond to the arrival times.
+At the end of the line the parameters are written.
+The three bus routes in the schedule appearing in the
+<A HREF="problem.html">problem statement</A>
+are shown by <KBD>GraphBusRoute</KBD> (three calls) as follows
+(the first two lines with time labels are produced by <KBD>WriteTimes</KBD>,
+which is too simple to include here):
+<PRE>
+000000000011111111112222222222333333333344444444445555555555
+012345678901234567890123456789012345678901234567890123456789
+1            1            1            1            1          [ 0,13, 5]
+   1           1           1           1           1           [ 3,12, 5]
+     1       1       1       1       1       1       1         [ 5, 8, 7]
+</PRE>
+<P>
+
+<H3>The input data</H3>
+The input data is a sorted list of arrival times,
+possibly containing duplicates.
+These are most conveniently stored by counting for each arrival time
+how often it occurs.
+For this purpose we introduce variables <KBD>s</KBD> and <KBD>a</KBD>:
+<PRE>
+var
+  s: integer; { s = # unaccounted arrivals = sum a[0..59] }
+  a: array[0..59] of integer; { a[t] = # unaccounted arrivals at time t }
+</PRE>
+Procedure <KBD>GraphUnaccounted</KBD> (listing not included) shows
+the arrival times in the same format as <KBD>GraphBusRoute</KBD>,
+except that now the tallies may take on values from 0 upward
+(0 is displayed as a space,
+and numbers above 9 are displayed as letters from A upward).
+The input for the example with 17 arrival times
+in the <A HREF="problem.html">problem statement</A> would be written as
+<PRE>
+000000000011111111112222222222333333333344444444445555555555
+012345678901234567890123456789012345678901234567890123456789
+1  1 1       2 1     1    11 1       1 2     1     111         total = 17
+</PRE>
+Compare this to the graphs of the bus routes shown above.
+The three rows of the bus routes nicely add up to the row of
+unaccounted arrival times in the input.
+<P>
+
+The input is read from file <KBD>inp</KBD> by procedure <KBD>ReadInput</KBD>:
+<PRE>
+procedure ReadInput;
+  { read input into s and a }
+  var i, j: integer;
+  begin
+  if Test then writeln('Reading input') ;
+  readln(inp, s) ;
+  if Test then writeln('Number of stops = ', s:1) ;
+  for i:=0 to 59 do a[i] := 0 ;
+  for i:=1 to s do begin
+    read(inp, j) ;
+    inc(a[j])
+    end { for i } ;
+  readln(inp) ;
+  if Test then begin GraphUnaccounted ; writeln end
+  end { ReadInput } ;
+</PRE>
+<P>
+The following function <KBD>Fits</KBD> determines whether a given
+bus route <KBD>b</KBD> fits with the arrivals <KBD>a</KBD>,
+that is, whether all stops of <KBD>b</KBD> occur in <KBD>a</KBD>:
+<PRE>
+function Fits(b: BusRoute): boolean;
+  { check whether b fits with a, that is, all arrivals of b occur in a }
+  { global: a }
+  var i, j: integer;
+  begin  
+  with b do begin
+    i := first ; j := 60 ;
+    { bounded linear search for earliest a[first + k*interval] = 0 }
+    while i &lt; j do
+      if a[i] &lt;&gt; 0 then i := i+interval
+      else j := i ;
+    Fits := (i &gt;= 60)
+    end { with }
+  end { Fits } ;
+</PRE>
+<P>
+
+<H3>Finding candidate bus routes</H3>
+We will first make a list of all bus routes that fit
+with the arrival times in the input.
+These are called candidate bus routes.
+Observe that the total number of possible bus routes equals
+the number of pairs <KBD>(first,interval)</KBD> with
+<KBD>0 &lt;= first &lt;= 29</KBD> and
+<KBD>first+1 &lt;= interval &lt;= 59-first</KBD>,
+which is 59+57+...+3+1 = 60*30/2 = 900.
+<P>
+Candidate bus routes will be stored in global array <KBD>c</KBD>
+and counted in integer <KBD>n</KBD>:
+<PRE>
+var
+  n: integer; { # candidate bus routes }
+  c: array[0..899] of BusRoute; { c[0..n-1] are candidate bus routes }
+</PRE>
+Procedure <KBD>FindBusRoutes</KBD> determines the candidate bus
+routes that fit with the given arrival times <KBD>a</KBD>:
+<PRE>
+procedure FindBusRoutes; 
+  { post: c[0..n-1] are all bus routes fitting with a }
+  { global: a, n, c }
+  var f, i: integer;
+  begin  
+  if Test then begin
+    writeln('Finding candidate bus routes') ;
+    WriteTimes
+    end { if } ;
+  n := 0 ;  
+  for f:=0 to 29 do begin
+    if a[f] &lt;&gt; 0 then begin
+      for i:=f+1 to 59-f do begin
+        with c[n] do begin
+          first := f ;
+          interval := i ;
+          howoften := 1 + (59 - f) div i   
+          end { with c[n] } ; 
+        if Fits(c[n]) then begin { another candidate }
+          if Test then GraphBusRoute(c[n]) ;
+          inc(n)
+          end { if }
+        end { for i }    
+      end { if }    
+    end { for f } ;
+  if Test then 
+    writeln('Number of candidate bus routes = ', n:1)
+  end { FindBusRoutes } ;
+</PRE>
+Procedure <KBD>FindBusRoutes</KBD> is quite straightforward.
+As usual we have included some diagnostic output.
+A few things might need further explanation.
+<P>
+First of all, the check <KBD>if a[f] &lt;&gt; 0</KBD> was inserted
+to cut off impossible bus routes as early as possible
+(otherwise, for values of <KBD>f</KBD> with <KBD>a[f]=0</KBD>,
+all possible values of <KBD>i</KBD> would be tried in vain).
+<P>
+Second, one might be tempted to optimize a little more.
+For instance,
+the computation of <KBD>howoften</KBD> could have been done only
+if <KBD>Fits(c[n])</KBD> turned out successful.
+Also, the function <KBD>Fits</KBD> could be adapted to exploit
+the fact that <KBD>a[f] &lt;&gt; 0</KBD> was already tested,
+by starting <KBD>Fits</KBD> with <KBD>i := first+interval</KBD> instead of
+<KBD>i := first</KBD>.
+The main reasons for not doing so are that these changes do not
+speed up things considerably (try it),
+and that they may complicate later uses or changes of <KBD>Fits</KBD>
+(such as using <KBD>howoften</KBD> in <KBD>Fits</KBD>).
+<P>
+As an example of <KBD>FindBusRoutes</KBD> consider the
+<A HREF="diag-0a.txt">diagnostic output</A> produced when reading
+the example input from the <A HREF="problem.html">problem statement</A>
+and finding the candidate bus routes.
+The 17 stops of this input give rise to 42 candidate bus routes,
+of which only eight stop more than twice.
+<P>
+Here is an overview of the number of candidate bus routes in each test:
+<PRE>
+test  number of  number of
+case  arrivals  candidates
+----  --------  ----------
+  0      17         42
+  1      12         24
+  2      44        237
+  3      43        375
+  4      31        136
+  5      40        201
+  6      70        365
+</PRE>
+<P>
+
+<H3>Finding schedules</H3>
+A schedule can be described as a list of bus routes
+(at most 17 according to the <A HREF="problem.html">problem statement</A>):
+<PRE>
+type
+  Schedule = array [0..16] of BusRoute;
+</PRE>
+A schedule is written by the following procedure:
+<PRE>
+procedure WriteSchedule(var f: text; sc: Schedule; len: integer);
+  var i: integer;
+  begin  
+  for i:=0 to len-1 do with sc[i] do
+    writeln(f, first:2, ' ', interval:2) ;
+  if Test then writeln(f, '-----')
+  end { WriteSchedule } ;
+</PRE>
+Using the candidate bus routes we can do straighforward <EM>backtracking</EM>
+to determine bus schedules that exactly account for the given arrival times.
+We are only interested in a bus schedule with as few bus routes as possible.
+For that purpose we introduce some global variables:
+<PRE>
+var
+  t: longint; { # schedules found so far }
+  freq: array [1..17] of longint; { freq[p] = # schedules with p bus routes }
+  p: integer; { # buses in partial schedule so far }
+  m: integer; { # buses in best schedule so far }
+  sched: Schedule; { sched[0..p-1] is schedule so far }
+  best: Schedule; { best[0..m-1] is best schedule so far }
+</PRE>
+Variables <KBD>t</KBD> and <KBD>freq</KBD> are for diagnostic purposes only.
+<P>
+Note that, according to the <A HREF="problem.html">problem statement</A>,
+the order of bus routes in a schedule is irrelevant
+(``the order of the bus routes does not matter'')
+and that a bus route may occur more than once
+(``buses from different routes may arrive at the same time'').
+To avoid duplication of work we will put bus routes in a schedule
+in the same order as they appear in the list of candidates
+and we allow multiple occurrences of the same bus route.
+<P>
+The state of the backtracking process is captured by the variables
+<KBD>s</KBD>, <KBD>a</KBD>, <KBD>p</KBD>, and <KBD>sched</KBD>.
+The bus routes <KBD>sched[0..p-1]</KBD> account for part of the arrival times,
+and the unaccounted arrival times are represented by <KBD>a</KBD>
+(and <KBD>s</KBD>).
+Procedure <KBD>Use</KBD> extends the current partial schedule with
+a given bus route and updates the state variables:
+<PRE>
+procedure Use(b: BusRoute);
+  { global: s, a, p, sched }
+  var i: integer;
+  begin
+  sched[p] := b ;
+  inc(p) ;
+  with b do begin
+    i := first ;
+    while (i &lt;= 59) do begin
+      dec(a[i]) ;
+      i := i+interval
+      end { while } ;
+    s := s - howoften
+    end { with } ;
+  if Trace then begin
+    WriteSchedule(output, sched, p) ;
+    GraphUnaccounted(output)
+    end { if }
+  end { Use } ;
+</PRE>
+Similarly, procedure <KBD>RemoveLast</KBD> removes the last bus route
+that was used in the current partial schedule:
+<PRE>
+procedure RemoveLast;
+  { global: s, a, p, sched }
+  var i: integer;
+  begin
+  dec(p) ;
+  with sched[p] do begin
+    i := first ;
+    while (i &lt;= 59) do begin
+      inc(a[i]) ;
+      i := i+interval
+      end { while } ;
+    s := s + howoften
+    end { with }
+  end { Remove } ;
+</PRE>
+The recursive procedure <KBD>FindSchedules</KBD>
+generates all schedules (with at most 17 bus routes):
+<PRE>
+procedure FindSchedules(k: integer);
+  { global: s, a, n, c, p, sched, m, best, t, freq }
+  { Find all schedules sched[0..r-1] with p &lt;= r &lt;= 17 such that 
+    bus routes sched[0..p-1] are as given,    
+    sched[p..r-1] accounts for a and uses only bus routes from c[k..n-1] }
+  begin  
+  if s = 0 then { nothing left to account for }
+    ScheduleFound
+  else if p = 17 then { too many bus routes: ignore }
+  else { try each candidate c[k..n-1] that fits }
+    while k &lt; n do begin
+      if Fits(c[k]) then begin
+        Use(c[k]) ;
+        FindSchedules(k) ;
+        RemoveLast
+        end { if } ;
+      inc(k)
+      end { while }
+  end { FindSchedules } ;
+</PRE>
+<KBD>FindSchedules</KBD> is called as follows in procedure
+<KBD>ComputeAnswer</KBD>:
+<PRE>
+procedure ComputeAnswer;
+  begin  
+  FindBusRoutes ;
+  if Test then writeln('Finding schedules') ;
+  for p:=1 to 16 do freq[p] := 0 ;
+  t := 0 ; p := 0 ; m := 18 ;
+  FindSchedules(0) ;
+  if Test then begin
+    writeln('Number of schedules = ', t:1) ;
+    WriteFrequencies(out)
+    end { if }
+  end { ComputeAnswer } ;
+</PRE>
+For the 17 arrival times in the <A HREF="problem.html">problem statement</A>,
+<KBD>FindSchedules</KBD> produces 18 schedules,
+as shown by the <A HREF="diag-0b.txt">diagnostic output</A>.
+The shortest has three bus routes and is unique,
+the longest (of which there are three) has seven bus routes.
+<P>
+This method is incorporated in <A HREF="program1.pas">Program 1</A>.
+It is too slow for the
+<A HREF="input-2.txt">second test input</A> with 44 arrival times.
+<A HREF="program1.pas">Program 1</A> quickly finds a schedule
+with four bus routes (the minimum)
+but then continues to look for (non-existing) improvements.
+Apparently there are many (longer) schedules for this test case.
+<P>
+
+
+<H2>Program 2</H2>
+
+One way of improving Program 1 is by cutting off the search
+for schedules in a `corner' of the search space
+where it is impossible to find improvements of the best schedule so far.
+More precisely,
+if <KBD>p</KBD> is the number of bus routes in the current partial schedule,
+then we will see to it that <KBD>p &lt; m</KBD> holds invariantly.
+If <KBD>s=0</KBD> then we have a schedule that is also an improvement
+of the best schedule so far.
+If, however, <KBD>s&lt;&gt;0</KBD> then we can stop searching in this corner
+if <KBD>p+1=m</KBD> since at least one more bus route is needed to complete
+the schedule, and therefore it will never result in an improvement.
+Here is the adapted code:
+<PRE>
+procedure FindBestSchedule(k: integer);
+  { global: s, a, n, c, p, sched, m, best }
+  { Find all schedules sched[0..r-1] with p <= r < m such that  
+    bus routes sched[0..p-1] are as given,        
+    sched[p..r-1] accounts for a and uses only bus routes from c[k..n-1] }
+  { pre: p &lt; m }
+  begin
+  if s = 0 then { nothing left to account for }
+    ScheduleFound
+  else { try all candidates c[k..n-1] that fit }
+    while (k &lt; n) and (p+1 &lt;&gt; m) do begin
+      if Fits(c[k]) then begin
+        Use(c[k]) ;
+        FindBestSchedule(k) ;
+        RemoveLast
+        end { if } ;
+      inc(k)
+      end { while }
+  end { FindBestSchedule } ;
+</PRE>
+Note that we have not written
+<PRE>
+  else if p+1 = m then { too many bus routes: ignore }
+  else { try all candidates c[k..n-1] that fit }
+    while k &lt; n do begin
+</PRE>
+because <KBD>m</KBD> may be changed inside the while-loop by the
+recursive call to <KBD>FindBestSchedule</KBD>.
+<P>
+
+This idea is incorporated in <A HREF="program2.pas">Program 2</A>.
+This program indeed only tries one schedule for
+<A HREF="input-1.txt">input-1.txt</A> and <A HREF="input-2.txt">input-2.txt</A>.
+However, on the other input files it still takes (too) long.
+<P>
+
+
+<H2>Program 3</H2>
+
+Yet another idea that might help improve performance is based
+on reordering the list of candidate bus routes.
+For Program 1, the order of the candidate bus routes does not matter,
+since this program generates <EM>all</EM> schedules.
+Using a different order of candidate buses simply means that
+all schedules are found in a different order.
+<P>
+
+Program 2 might benefit from another order for the candidates,
+because if it finds a good schedule early on,
+then the built-in cut-off mechanism is more efficient.
+Since we are interested in schedules with the fewest bus routes,
+each bus route in the schedule should account for as many arrivals as possible.
+Therefore, we might first try bus routes that make many stops.
+<P>
+
+<A HREF="program3.pas">Program 3</A> sorts the candidate bus routes
+on <KBD>howoften</KBD> as they are found.
+The <A HREF="diag-0c.txt">diagnostic output</A> for the input
+in the <A HREF="problem.html">problem statement</A> shows the sorted
+list of 42 candidate bus routes.
+Sorting turns out to make only a small difference.
+Program 3 still takes too long for <A HREF="input-3.txt">input-3.txt</A>.
+
+
+<H2>Program 4</H2>
+
+Programs 2 and 3 aimed at reducing the number of schedules investigated.
+We can also directly aim at reducing the number of <EM>partial</EM schedules
+investigated.
+For instance, when Program 3 has found a schedule of 5 bus routes,
+it will still investigate all remaining partial schedules with 4 bus routes
+(and there can be many of those).
+However,
+if such a partial schedule of 4 bus routes still leaves, say, 10 arrival times
+unaccounted for and each of remaining candidate bus routes makes only three
+stops or fewer,
+then we need at least 4 more bus routes to complete the schedule.
+Hence, such a partial schedule need not be considered, because
+the complete schedule would have at least 4+4=8 bus routes.
+<P>
+An adapted procedure <KBD>FindBestSchedule</KBD> is here:
+<PRE>
+procedure FindBestSchedule(k: integer);
+  { global: s, a, n, c, p, sched, m, best }
+  { Find all schedules sched[0..r-1] with p <= r < m such that  
+    bus routes sched[0..p-1] are as given,        
+    sched[p..r-1] accounts for a and uses only bus routes from c[k..n-1] }
+  { pre: p &lt; m }
+  begin
+  if s = 0 then { nothing left to account for }
+    ScheduleFound
+  else begin { try all candidates c[k..n-1] that fit }
+    while (k &lt; n) {c}and (c[k].howoften &gt; s) do inc(k) ;
+    while (k &lt; n) {c}and (p + 1 + (s-1) div c[k].howoften &lt; m) do begin
+      if Fits(c[k]) then begin
+        Use(c[k]) ;
+        FindBestSchedule(k) ;
+        RemoveLast
+        end { if } ;
+      inc(k)
+      end { while }
+    end { else }
+  end { FindBestSchedule } ;
+</PRE>
+The first while-loop skips candidate bus route that make too many stops
+for the remaining unaccounted arrival times.
+The second while-loop breaks off as soon as the remaining candidate
+bus routes make so few stops that improvement is no longer possible.
+Note that I have written <KBD>{c}and</KBD> to remind myself (and you)
+that this conjunction is <EM>conditional</EM>
+(using short-circuit boolean evaluation).
+That is, if the first conjunct already evaluates to false
+then the second conjunct is not evaluated
+(in our case it is then even undefined).
+<P>
+
+Observe that this technique only works if the list of candidate bus routes is
+sorted on <KBD>howoften</KBD>.
+In that case a <EM>lower bound</EM> can be given on the number of bus routes
+needed to complete the schedule.
+The technique is sometimes called <EM>branch-and-bound</EM>.
+It is used in <A HREF="program4.pas">Program 4</A>,
+which is so effective that all six input files are done in an instant.
+For all of them only one or two (complete) schedules are considered.
+<P>
+
+
+<H2>Variants of this problem</H2>
+
+What changes should be made to the programs
+if all bus routes in a schedule should be <EM>different</EM>?
+What about generating <EM>all</EM> minimal schedules?
+<P>
+
+Write an auxiliary program that generates all bus routes,
+sorts them on how often they stop,
+and then puts this data in a file `routes.dat'.
+Investigate whether using this file,
+instead of generating them inside the main program,
+can speed up the generation of all candidates.
+<P>
+
+
+<HR>
+<A HREF="http://www.win.tue.nl/~wstomv/">Tom Verhoeff</A><BR>
+<A HREF="http://www.tue.nl/english/">Eindhoven University of Technology</A>
+</BODY>
+</HTML>

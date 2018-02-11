@@ -1,0 +1,6 @@
+[(
+"di"
+"din"
+"dinto"
+"dintos"
+)]

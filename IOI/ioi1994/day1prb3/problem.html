@@ -1,0 +1,86 @@
+<HTML>
+<HEAD>
+<TITLE>IOI'94 - Day 1 - Problem 3: The Primes</TITLE>
+</HEAD>
+<BODY>
+<H1>IOI'94 - Day 1 - Problem 3: The Primes</H1>
+
+<PRE>
+|---|---|---|---|---|
+| 1 | 1 | 3 | 5 | 1 |
+|---|---|---|---|---|
+| 3 | 3 | 2 | 0 | 3 |
+|---|---|---|---|---|
+| 3 | 0 | 3 | 2 | 3 |
+|---|---|---|---|---|
+| 1 | 4 | 0 | 3 | 3 |
+|---|---|---|---|---|
+| 3 | 3 | 3 | 1 | 1 |
+|---|---|---|---|---|  (Figure 1)
+</PRE>
+<HR>
+
+Figure 1 shows a square.
+Each row, each column and the two diagonals 
+can be read as a five digit prime number.
+The rows are read from left to right.
+The columns are read from top to bottom.
+Both diagonals are read from left to right.
+Using the data in the <KBD>INPUT.TXT</KBD> file,
+write a program that constructs such squares.
+
+<UL>
+<LI> The prime numbers must have the same digit sum (11 in the example).
+
+<LI> The digit in the top left-hand corner of the square is pre-determined 
+   (1 in the example).
+<LI> A prime number may be used more than once in the same square.
+
+<LI> If there are several solutions, all must be presented.
+
+<LI> A five digit prime number cannot begin with zeros, ie 00003 is NOT 
+   a five digit prime number.
+</UL>
+
+<H2>Input Data</H2>
+
+The program reads data from the <KBD>INPUT.TXT</KBD> file.
+First the digit sum of  prime numbers and then the digit
+in the top left-hand corner of the square.
+The file contains two lines.
+There will always be a solution to the given test data. In our example:
+
+<PRE>
+11
+1
+</PRE>
+
+<H2>Output Data</H2>
+
+In the <KBD>OUTPUT.TXT</KBD> file, write five lines for each solution found, 
+where each line in turn consists of a five digit prime number.
+The above example has 3 solutions which means that the <KBD>OUTPUT.TXT</KBD>
+file contains the following (the empty lines are optional):
+
+<PRE>
+11351
+14033
+30323
+53201
+13313
+
+11351
+33203
+30323
+14033
+33311
+
+13313
+13043
+32303
+50231
+13331
+</PRE>
+
+</BODY>
+</HTML>

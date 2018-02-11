@@ -1,0 +1,8 @@
+The file rods.*.in is SCRAMBLED.
+A plain version is rods.*.bin.
+
+In the server side, we scrambled some values for security.
+If the original value is X, the scrambled one is 3X+5.
+The output files are also scrambled.
+If the output value is Y, it means (Y-5)/3.
+
