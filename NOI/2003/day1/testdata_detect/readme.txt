@@ -1,0 +1,1 @@
+使用detect_convert.exe可将数据转化为可见形式。

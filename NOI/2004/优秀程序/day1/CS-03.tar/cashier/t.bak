@@ -1,0 +1,4 @@
+./make
+./cashier
+./check
+diff cashier.out cashier.std

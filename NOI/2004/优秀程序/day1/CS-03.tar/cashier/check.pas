@@ -1,0 +1,57 @@
+const
+        fin = 'cashier.in1';
+        fon = 'cashier.std';
+        maxn = 100000;
+var
+        a : array[0..maxn] of longint;
+        n, m, tot, total, min, i, j, x : longint;
+        ch : char;
+
+procedure insert;
+var l, r, mid : longint;
+begin
+  if x < min then begin inc(tot); exit; end;
+  inc(total);
+  if m = 0 then begin
+     m := 1; a[1] := x; exit;
+  end;
+  l := 0; r := m;
+  while l < r do begin
+    mid := (l + r + 1) shr 1;
+    if a[mid] >= x then l := mid else r := mid - 1;
+  end;
+  if l <> r then halt;
+  move(a[l + 1], a[l + 2], (m - l) * 4);
+  a[l + 1] := x;
+  inc(m);
+end;
+
+begin
+  assign(input, fin); reset(input);
+  assign(output, fon); rewrite(output);
+  readln(n, min);
+  a[0] := maxlongint;
+  for i := 1 to n do begin
+    readln(ch, x);
+    case ch of
+      'I' : insert;
+      'A' : for j := 1 to m do inc(a[j], x);
+      'S' :
+              for j := 1 to m do begin
+                dec(a[j], x);
+                if a[j] < min then begin
+                   tot := tot + m - j + 1;
+                   total := total - m + j - 1;
+                   m := j - 1;
+                   break;
+                end;
+              end;
+      'F' : if x > total then writeln(-1) else writeln(a[x]);
+    end;
+  end;
+  writeln(tot);
+  close(input);
+  close(output);
+end.
+
+

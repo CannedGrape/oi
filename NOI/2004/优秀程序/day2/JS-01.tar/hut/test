@@ -1,0 +1,4 @@
+./hut_ran
+time ./hut
+time ./hut_x
+diff hut.out hut_x.out

@@ -1,0 +1,65 @@
+init
+look(d, sign) returned with d=3, sign=FALSE
+walk(0)
+look(d, sign) returned with d=2, sign=FALSE
+look(d, sign) returned with d=2, sign=FALSE
+walk(1)
+look(d, sign) returned with d=2, sign=FALSE
+put_sign
+walk(0)
+walk(1)
+look(d, sign) returned with d=3, sign=FALSE
+walk(0)
+walk(1)
+take_sign
+look(d, sign) returned with d=2, sign=FALSE
+walk(1)
+look(d, sign) returned with d=3, sign=FALSE
+put_sign
+walk(0)
+walk(1)
+look(d, sign) returned with d=2, sign=FALSE
+walk(1)
+look(d, sign) returned with d=3, sign=TRUE
+walk(0)
+walk(1)
+walk(1)
+take_sign
+walk(0)
+walk(1)
+walk(1)
+walk(1)
+look(d, sign) returned with d=2, sign=FALSE
+put_sign
+walk(0)
+walk(2)
+look(d, sign) returned with d=2, sign=FALSE
+walk(1)
+look(d, sign) returned with d=2, sign=TRUE
+walk(0)
+walk(1)
+walk(1)
+take_sign
+walk(0)
+walk(1)
+look(d, sign) returned with d=2, sign=FALSE
+put_sign
+walk(0)
+walk(1)
+look(d, sign) returned with d=2, sign=FALSE
+walk(1)
+look(d, sign) returned with d=2, sign=FALSE
+walk(0)
+walk(1)
+walk(2)
+take_sign
+look(d, sign) returned with d=2, sign=FALSE
+walk(1)
+look(d, sign) returned with d=1, sign=FALSE
+look(d, sign) returned with d=1, sign=FALSE
+walk(0)
+walk(1)
+report(5, 5)
+The number of caves is correct!
+The number of channels is correct!
+You have walked 34 time(s)!
