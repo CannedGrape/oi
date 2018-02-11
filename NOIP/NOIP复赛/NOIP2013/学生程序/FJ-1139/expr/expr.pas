@@ -1,0 +1,10 @@
+begin
+  assign(input,'expr.in');
+  assign(output,'expr.out');
+  reset(input);
+  rewrite(output);
+  randomize;
+  writeln(random(10000));
+  close(input);
+  close(output);
+end.

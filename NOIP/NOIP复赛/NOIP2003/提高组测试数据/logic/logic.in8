@@ -1,0 +1,21 @@
+10 10 10
+A
+B
+C
+D
+E
+F
+G
+H
+I
+J
+A: B is guilty.
+B: C is guilty.
+C: D is guilty.
+D: E is guilty.
+E: F is guilty.
+F: G is guilty.
+G: H is guilty.
+H: I love you!
+I: I am not guilty.
+J: I is not guilty.

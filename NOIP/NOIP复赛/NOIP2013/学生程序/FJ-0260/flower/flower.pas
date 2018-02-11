@@ -1,0 +1,13 @@
+var
+  a,b:integer;
+begin
+  assign(input,'flower.in');
+  reset(input);
+  assign(output,'flower.out');
+  readln(a);
+  readln(b);
+  close(input);
+  rewrite(output);
+  writeln(a*b+a-b);
+  close(output);
+end.

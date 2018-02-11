@@ -1,0 +1,26 @@
+var
+  n,x,a,i,ans:longint;
+  s,sub:string;
+begin
+  assign(input,'count.in');
+  assign(output,'count.out');
+  reset(input);
+  rewrite(output);
+  readln(n,x);
+  ans:=0;
+  str(x,sub);
+  for i:=1 to n do
+  begin
+    str(i,s);
+    a:=pos(sub,s);
+    while(a<>0)do
+    begin
+      inc(ans);
+      delete(s,a,1);
+      a:=pos(sub,s);
+    end;
+  end;
+  writeln(ans);
+  close(input);
+  close(output);
+end.

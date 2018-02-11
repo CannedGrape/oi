@@ -1,0 +1,80 @@
+#include <iostream>
+#include <cstring>
+#include <cstdio>
+#include <cstdlib>
+#include <algorithm>
+
+using namespace std;
+
+typedef long long ll;
+
+const int MAXN=1000010;
+
+int N,M,K,X,R[MAXN],pnum,pr[100010];
+bool f[100010];
+
+void process(int);
+int count1();
+int phi(int);
+
+
+int main(){
+  freopen("circle.in","r",stdin);
+  freopen("circle.out","w",stdout);
+  process(100000);
+  cin >> N >> M >> K >> X;
+  int cir=count1();
+  /*
+  int ph=phi(cir);
+  int e;
+  if (K<ph) e=K;
+  else e=K%ph+ph;
+  ll ans=1,c=10;
+  for (;e;e>>=1){
+    if (e&1) ans=ans*c%cir;
+    c=c*c%cir;
+  }
+  */
+  ll ans=1,c=10;
+  for (;K;K>>=1){
+    if (K&1) ans=ans*c%cir;
+    c=c*c%cir;
+  }
+  cout << R[ans] << endl;
+  return 0;
+}
+
+void process(int MAX){
+  memset(f,true,sizeof(f));
+  pnum=0;
+  for (int i=2;i<=MAX;++i){
+    if (f[i]) pr[++pnum]=i;
+    for (int j=1;j<=pnum && i*pr[j]<=MAX;++j){
+      f[i*pr[j]]=false;
+      if (i%pr[j]==0) break;
+    }
+  }
+}
+
+int count1(){
+  R[0]=X;
+  int i=1;
+  for (;;++i){
+    R[i]=(R[i-1]+M)%N;
+    if (R[i]==X) break;
+  }/*
+  for (int j=0;j<i;++j) cout << R[j] << " ";
+  cout << endl;*/
+  return i;
+}
+
+int phi(int P){
+  int T=P,ans=P;
+  for (int i=1;i<=pnum && (ll)i*i<=P && T>1;++i)
+    if (T%pr[i]==0){
+      ans=ans/pr[i]*(pr[i]-1);
+      for (;T%pr[i]==0;T/=pr[i]);
+    }
+  if (T>1) ans=ans/T*(T-1);
+  return ans;
+}

@@ -1,0 +1,82 @@
+#include<iostream>
+#include<cstring>
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+int main()
+{
+    freopen("expr.in","r",stdin);
+    freopen("expr.out","w",stdout);
+    char sr[1000000];
+    long long a[100001],l,i,j,k,x=1,y=0,jia=0,cheng=0;
+    bool b[100001];
+    memset(a,0,sizeof(a));
+    scanf("%s",&sr);
+    l=strlen(sr);
+    for(i=0;i<l;i++)
+    {
+        if((sr[i]=='*')||(sr[i]=='+'))
+        {
+            x++;
+            y++;
+            if(sr[i]=='*')
+            {
+                b[y]=1;
+                cheng++;
+            }
+            else
+            {
+                b[y]=0;
+                jia++;
+            }
+        }
+        else
+        {
+            k=sr[i]-48;
+            a[x]=a[x]*10+k;
+        }
+    }
+    while(cheng!=0)
+    {
+        for(i=1;i<=y;i++)
+        {
+            if(b[i]==1)
+            {
+                a[i]=a[i]*a[i+1];
+                for(j=i+1;j<=x-1;j++)
+                {
+                    a[j]=a[j+1];
+                    b[j]=b[j+1];
+                }
+                x--;
+                y--;
+                break;
+            }
+        }
+        cheng--;
+    }
+    while(jia!=0)
+    {
+        for(i=1;i<=y;i++)
+        {
+            if(b[i]==0)
+            {
+                a[i]=a[i]+a[i+1];
+                for(j=i+1;j<=x-1;j++)
+                {
+                    a[j]=a[j+1];
+                    b[j]=b[j+1];
+                }
+                x--;
+                y--;
+                break;
+            }
+        }
+        jia--;
+    }
+    a[1]=a[1]%10000;
+    cout<<a[1];
+    fclose(stdin);
+    fclose(stdout);
+    return 0;
+}

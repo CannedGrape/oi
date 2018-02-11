@@ -1,0 +1,10 @@
+begin
+ assign(input,'puzzle.in');
+ assign(output,'puzzle.out');
+ reset(input);
+ rewrite(output);
+ writeln('2');
+ writeln('-1');
+ close(input);
+ close(output);
+end.

@@ -1,0 +1,251 @@
+NOIp2002普及组解题报告 
+
+
+题一：级数求和 
+
+[问题描述]： 
+
+　　已知：Sn=1+1/2+1/3+…+1/n。显然对于任意一个整数K，当n足够大的时候，Sn大于K。现给出一个整数K（1<=K<=15），要求计算出一个最小的n，使得Sn>K 
+
+　　[问题分析]：
+　　这道题目非常简单，题目的意思已经把该题的算法描述得再清楚不过了，初始时Sn=0,n=0,然后每次循环n n+1,Sn Sn+1/n,，直到Sn大于K，最后输出K。另外实型(Real是最慢的，建议用Extended)的运算速度不是很快，而K为1 15之间的整数，所以最后可以交一张表（常量数组），以达到最好的效果
+　　[参考程序]： 
+　　{$N+}
+　　program c1;
+　　var
+　　　K: Byte;
+　　　n: Longint;
+　　　Sn: Extended;
+　　begin
+　　　Readln(K);
+　　　Sn := 0; n := 0;
+　　　Repeat
+　　　　Inc(n);
+　　　　Sn := Sn + 1 / n;
+　　　Until Sn > k;
+　　　Writeln(n);
+　　end.
+
+题二：选数 
+
+　　[问题描述]：
+　　已知n（1<=n<=20）个整数x1,x2,…,xn（1<=xi<=5000000），以及一个整数k（k<n）。从n个整数中任选k个整数相加，可分别得到一系列的和。现在，要求你计算出和为素数共有多少种。
+　　[问题分析]：
+　　本题动态规划无从下手，也无数学公式可寻，看来只能搜索（组合的生成算法），其实1<=n<=20这个约束条件也暗示我们本题搜索是有希望的，组合的生成可用简单的DFS来实现，既搜索这k个整数在原数列中的位置，由于组合不同于排列，与这k个数的排列顺序无关，所以我们可以令a[I]<a[I+1]（a[I]表示第I个数在原数列中的位置），这个组合生成算法的复杂度大约为C(n,k)，下面给出递归搜索算法的框架：
+　　　　　　　　　Proc Search(dep) 
+　　　　　　　　　Begin
+　　　　　　　　　　for i <- a[dep - 1] + 1 to N - (M - dep) do
+　　　　　　　　　　　1：a[dep] <- i
+　　　　　　　　　　　2：S <- S + x[i]
+　　　　　　　　　　　3：if dep < k then Search(dep + 1) else 判断素数
+　　　　　　　　　　　4：S <- S - x[i]
+　　　　　　　　　 End
+
+　　接下来的问题就是判断素数，判断一个整数P(P>1)是否为素数最简单的方法就是看是否存在一个素数a(a<=sqrt(P))是P的约数，如果不存在，该数就为素数，由于在此题中1<=xi<=5000000,n<=20,所以要判断的数P不会超过100000000，sqrt(p)<=10000，因此，为了加快速度，我们可以用筛选法将2…10000之间的素数保存到一个数组里（共1229个），这样速度估计将提5 6倍。
+　　特别注意：本题是要求使和为素数的情况有多少种，并不是求有多少种素数，比赛时就有很多同学胡乱判重而丢了12分；还有1不是素数，在判素数时要对1做特殊处理。
+　　[参考程序]
+　　　{$R-,S-,I-,Q-}
+　　　program c2;
+　　　const
+　　　　MaxN = 20;
+　　　var
+　　　　N, M, i: Byte;
+　　　　ans, s: Longint;
+　　　　x: array[1 .. MaxN] of Longint;
+　　　　f: array[1 .. 10000] of Byte; 
+　　　　p: array[1 .. 1229] of Integer;
+　　　procedure Get_Prime; {筛选法求素数}
+　　　var
+　　　　i, j, s: Integer;
+　　　begin
+　　　　s := 0;
+　　　　f[1] := 0;
+　　　　for i := 2 to 10000 do f[i] := 1;
+　　　　for i := 2 to 10000 do
+　　　　　if f[i] = 1 then
+　　　　　　begin
+　　　　　　　Inc(s); p[s] := i;
+　　　　　　　j := 2 * i;
+　　　　　　　while j <= 10000 do begin f[j] := 0; Inc(j, i) end;
+　　　　　　end
+　　　end;
+　　　procedure Work(S: Longint); {判断素数}
+　　　var
+　　　　i: Integer;
+　　　begin
+　　　　if S <= 10000 then Inc(ans, f[S])
+　　　　else
+　　　　　begin
+　　　　　　i := 1;
+　　　　　　while sqr(longint(p[i])) <= S do
+　　　　　　　begin
+　　　　　　　　if S mod p[i] = 0 then Exit;
+　　　　　　　　Inc(i)
+　　　　　　　end;
+　　　　　　Inc(ans)
+　　　　　end
+　　　end;
+　　　procedure Search(d, pre: Byte);
+　　　var
+　　　　i: Byte;
+　　　begin
+　　　　for i := pre + 1 to N - (M - d) do
+　　　　　begin
+　　　　　　Inc(S, x[i]);
+　　　　　　if d = M then Work(S)
+　　　　　　　else Search(d + 1, i);
+　　　　　　Dec(S, x[i])
+　　　　　end
+　　　end;
+　　　begin
+　　　　Readln(N, M);
+　　　　for i := 1 to N do Read(x[i]);
+　　　　ans := 0; S := 0;
+　　　　Get_Prime;
+　　　　Search(1, 0);
+　　　　Writeln(ans)
+　　　end.
+
+题三：产生数
+
+　　[问题描述]：
+　　　　给出一个整数n(n<10^30)和k个变换规则（k<=15）。
+　　规则：
+　　　　1个数字可以变换成另一个数字
+　　　　规则的右部不能为零。
+　　问题：
+　　　　给出一个整数n和k个规则
+　　求出：
+　　　　经过任意次的变换（0次或多次），能产生出多少个不同的整数。
+　　[问题分析]：
+　　　　认真分析题目之后发现，本题搜索显然是不行的，而且对于只需计数而不需求具体方案的题目，一般都不会用搜索解决，其实本题不难看出，可以用乘法原理直接进行计数，用Fi表示数字i包括本身可以变成的数字总个数（这里的变成可以是直接变成也可以是间接变成，比如3->5,5->7,那么3->7），那么对于一个数a（用数组存,长度为n），根据乘法原理它能产生出F[a[1]] F[a[2]] F[a[3]] …F[a[n]]个不同整数，相信这一点大家不难理解。那么现在的关键就是如何求Fi，由于这些变换规则都是反应的数字与数字之间的关系，这很容易让我们想到用图来表示这种关系：
+
+　　1： 建立一个有向图G，初始化g[i, j] False
+　　2： 如果数字i能直接变成数字j，那么g[i, j]　 　True
+　　容易知如果数字i能变成数字j，那么i到j必须存在路径，否则i是不可能变成j的，这样一来，Fi的求解就显得非常简单了，求一个顶点v包括本身能到达的顶点数的方法相当多，可以用BFS,DFS,Dijkstra,Floyd，这里介绍一种类似Floyd的有向图的传递闭包算法，该算法实现简单 ，在解决这类问题时比Floyd效率更高，所谓有向图的传递闭包就是指可达性矩阵A=[a[i, j]],其中
+　　a[i, j] = True 从i到j存在通路 
+　　a[i, j] = False 从i到j不存在通路
+所以有向图传递闭包算法只需将floyd算法中的算术运算符操作'+'用相应的逻辑运算符'and'和'or'代替就可以了，其算法如下：
+　　　　　for k 1 to n do
+　　　　　　for i 1 to n do
+　　　　　　　for j 1 to n do
+　　　　　　　　a[i, j] = a[i, j] or (a[i, k] and a[k, j])
+　　最后值得注意的是当n很大时输出可能会超过Comp类型的范围，所以要使用高精度乘法，由于高精度算法是信息学竞赛中的基础，这里就不在详述。
+　　[参考程序]
+　　{$R-,S-,I-,Q-}
+　　program c3;
+　　const
+　　　MaxLen = 30;
+　　var
+　　　Len, M: Byte;
+　　　a: array[1 .. MaxLen] of Byte;
+　　　f: array[0 .. 9] of Byte;
+　　　g: array[0 .. 9, 0 .. 9] of Boolean;
+　　procedure Init;
+　　var
+　　　i: Byte;
+　　　St: String;
+　　begin
+　　　Readln(st);
+　　　Len := 0; M := 0;
+　　　i := 1;
+　　　while st[i] in ['0' .. '9'] do
+　　　　begin Inc(Len); a[Len] := Ord(st[i]) - 48; Inc(i) end;
+　　　Repeat
+　　　　if st[i] in ['0' .. '9'] then M := M * 10 + Ord(st[i]) - 48;
+　　　　Inc(i)
+　　　Until i > Length(st)
+　　end;
+　　procedure Main;
+　　var
+　　　i, j, k: Byte;
+　　begin
+　　　Fillchar(g, Sizeof(g), False);
+　　　for k := 1 to M do
+　　　　begin
+　　　　　Readln(i, j);
+　　　　　g[i, j] := True
+　　　　end;
+　　　for k := 0 to 9 do
+　　　　for i := 0 to 9 do
+　　　　　for j := 0 to 9 do
+　　　　　　g[i, j] := g[i, j] or (g[i, k] and g[k, j]);
+　　　Fillchar(f, Sizeof(f), 0);
+　　　for i := 0 to 9 do g[i, i] := True;
+　　　for i := 0 to 9 do
+　　　　for j := 0 to 9 do
+　　　　　Inc(f[i], Ord(g[i, j]))
+　　end;
+　　procedure Show;
+　　var
+　　　i, j, k, g: Byte;
+　　　ans: Array[1 .. MaxLen] of Byte;
+　　begin
+　　　Fillchar(ans, Sizeof(ans), 0);
+　　　ans[1] := 1;
+　　　for k := 1 to Len do
+　　　　begin
+　　　　　g := 0;
+　　　　　for i := 1 to MaxLen do
+　　　　　　begin
+　　　　　　　ans[i] := ans[i] * f[a[k]] + g;
+　　　　　　　g := ans[i] div 10;
+　　　　　　　ans[i] := ans[i] mod 10
+　　　　　　end
+　　　　end;
+　　　j := MaxLen;
+　　　While ans[j] = 0 do Dec(j);
+　　　for i := j downto 1 do Write(ans[i]);
+　　　Writeln
+　　end;
+　　begin
+　　　Init;
+　　　Main;
+　　　Show
+　　end.
+
+题四：过河卒
+
+　　[问题描述]：
+　　棋盘上A点有一个过河卒，需要走到目标B点。卒行走的规则：可以向下、或者向右。
+同时在棋盘上C点有一个对方的马，该马所在的点和所有跳跃一步可达的点称为对方马的控制点。
+　　棋盘用坐标表示，A点(0,0)、B点(n, m) (n,m为不超过20的整数),同样马的位置坐标是需要给出的。现在要求你计算出卒从A点能够到达B点的路径的条数
+　　[问题分析]：
+　　这是一道老得不能再老的题目了，很多书上都有类似的题目，NOIp97普及组的最后一题就和本题几乎一模一样。有些同学由于没见过与之类似的题目，在比赛时用了搜索，当n到14，15左右就会超时，其实，本题稍加分析，就能发现：要到达棋盘上的一个点，只能从左边过来或是从上面下来，所以根据加法原理，到达某一点的路径数目，等于到达其相邻上，左两点的路径数目之和，因此我们可以使用逐列（或逐行）递推的方法来求出从起始顶点到重点的路径数目，即使有障碍（我们将马的控制点称为障碍），这一方法也完全适用，只要将到达该点的路径数目置为0即可，用F[i,j]表示到达点(i,j)的路径数目，g[i,j]表示点(i, j)有无障碍，递推方程如下：
+　　　　　　　　F[0,0] = 1
+　　　　　　　　F[i,j] = 0 　　　　　　　　　　 { g[x,y] = 1 }
+　　　　　　　　F[i,0] = F[i-1,0] 　　　　　　　{i > 0, g[x,y] = 0}
+　　　　　　　　F[0,j] = F[0,j-1] 　　　　　　　{j > 0, g[x,y] = 0}
+　　　　　　　　F[i,j] = F[i-1,j] + F[i,j-1]　 {i > 0, j > 0, g[x, y] = 0}
+　　本题与第三题一样，也要考虑精度问题，当n,m都很大时，可能会超过MaxLongInt,所以要使用Comp类型计数(Comp类型已经足够了，即使n=20,m=20，没有任何障碍的情况下的结果也只有14，5位的样子)。
+　　[参考程序]
+　　{$R-,S-,I-,Q-,N+}
+　　program c4;
+　　const
+　　　dx: array[1 .. 8] of Shortint = (-2, -1, 1, 2, 2, 1, -1, -2);
+　　　dy: array[1 .. 8] of Shortint = (1, 2, 2, 1, -1, -2, -2, -1);
+　　var
+　　　n, m, x, y, i, j: Byte;
+　　　g: array[0 .. 20, 0 .. 20] of Byte;
+　　　f: array[0 .. 20, 0 .. 20] of Comp;
+　　begin
+　　　Readln(n, m, x, y);
+　　　Fillchar(g, Sizeof(g), 0);
+　　　g[x, y] := 1;
+　　　for i := 1 to 8 do
+　　　　if (x + dx[i] >= 0) and (x + dx[i] <= n) and
+　　　　　(y + dy[i] >= 0) and (y + dy[i] <= m) then
+　　　　　　g[x + dx[i], y + dy[i]] := 1;
+　　　f[0, 0] := 1;
+　　　for i := 1 to n do
+　　　　if g[i, 0] = 0 then f[i, 0] := f[i - 1, 0];
+　　　for i := 1 to m do
+　　　　if g[0, i] = 0 then f[0, i] := f[0, i - 1];
+　　　for i := 1 to n do
+　　　　for j := 1 to m do
+　　　　　if g[i, j] = 0 then f[i, j] := f[i - 1, j] + f[i, j - 1];
+　　　Writeln(f[n, m]: 0: 0)
+　　end.
+
+　　总结:
+　　四道题目其实都很容易,要想到正确可行的方法并不难,考察的是大家的编程基础,一些基本算法的简单应用,并不需要什么优化技巧,关键是看大家对这些基本算法是否已熟练掌握,只有熟练掌握这些算法,在考试中才能在较短的时间内做好每道题,我们一定要重视基础!

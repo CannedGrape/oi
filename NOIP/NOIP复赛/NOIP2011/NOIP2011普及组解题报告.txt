@@ -1,0 +1,470 @@
+NOIP2011普及组解题报告
+
+——ahbbzeq 2011.11.25 转载请注明来源
+
+一、数字反转
+
+没得满分只能说明一个问题，你的程序写的太少了。
+
+program reverse;
+
+var
+
+  s:string;
+
+  i,sta:longint;
+
+begin
+
+  assign(input,'reverse.in');reset(input);
+
+  assign(output,'reverse.out');rewrite(output);
+
+ 
+
+  readln(i);
+
+  str(i,s);
+
+  sta:=1;
+
+  if s[1]='-'  then
+
+    begin
+
+      write('-');
+
+      sta:=2;
+
+    end;
+
+  i:=length(s);
+
+  while (s[i]='0') and (i>sta) do
+
+    dec(i);
+
+  while (i>=sta) do
+
+    begin
+
+      write(s[i]);
+
+      dec(i);
+
+    end;
+
+ 
+
+  close(input);close(output);
+
+end.
+
+ 
+
+二、统计单词个数
+
+考你的基本功，和对程序的理解，尤其是细节上的优化。直接在文章中选出单词，与给定单词长度一致时才比较，函数传参数时也不要传字符串（会很慢的，具体慢多少没试）。
+
+program stat;
+
+var
+
+  s,p:ansistring;
+
+  i,j,first,num,len,c,k:longint;
+
+ 
+
+function cmp(x:longint):boolean;
+
+  var
+
+    i:longint;
+
+  begin
+
+    for i:= 1 to  c do
+
+       if s[i]<> p[x+i-1] then exit(false);
+
+    exit(true);
+
+  end;
+
+begin
+
+  assign(input,'stat.in');reset(input);
+
+  assign(output,'stat.out');rewrite(output);
+
+ 
+
+  readln(s);readln(p);
+
+  s:=upcase(s);p:=upcase(p);
+
+  c:=length(s);  len:=length(p);
+
+  i:=1;     num:=0;  first:=-1;
+
+  while (s[i]=' ')and (i<=len) do inc(i);
+
+  while (i<=len) do
+
+    begin
+
+      j:=i+1;
+
+      while (p[j]<>' ') and (j<=len) do
+
+        inc(j);
+
+      if (j-i = c) and cmp(i) then
+
+        begin
+
+          if first=-1 then first:=i;
+
+          inc(num);
+
+        end;
+
+      i:=j;  while (p[i]=' ') and (i<=len) do inc(i);
+
+    end;
+
+  if first=-1 then
+
+    writeln(-1)
+
+  else writeln(num,' ',first-1);
+
+ 
+
+  close(input);close(output);
+
+end.
+
+ 
+
+ 
+
+三、瑞士轮
+
+实践证明，如果单纯的排序r次，必然结果是超时。事实上只需一次真正意义上的排序以后，在以后的比赛中，按原顺序分成两组，获胜组和失败组，这两组依然是有序的，再把这两组归并成一组，就可以了。总时间复杂度O（N*R）。  为了方便归并，下面的数组采用了滚动数组。
+
+program swiss_merger;
+
+ 
+
+ 
+
+var
+
+  n,r,q,i,j,k,c,pwin,plose:longint;
+
+  s,w,t:array[1..200050] of longint;
+
+  id:array[0..1,1..200050] of longint;
+
+ 
+
+procedure qsort(n,m:longint);
+
+  var
+
+    i,j,k,t:longint;
+
+ 
+
+  begin
+
+    i:=n;j:=m;  k:= id[0,(n+m)div 2];
+
+    repeat
+
+      while (s[id[0,i]] > s[k]) or (s[id[0,i]]=s[k]) and (id[0,i]<k) do inc(i);
+
+      while (s[id[0,j]] < s[k]) or (s[id[0,j]]=s[k]) and (id[0,j]>k) do dec(j);
+
+      if i<=j then
+
+        begin
+
+          t:=id[0,i]; id[0,i]:=id[0,j];id[0,j]:=t;
+
+          inc(i); dec(j);
+
+        end;
+
+    until i>j;
+
+    if n<j then qsort(n,j);
+
+    if i<m then qsort(i,m);
+
+  end;
+
+ 
+
+begin
+
+  assign(input,'swiss.in');reset(input);
+
+  assign(output,'swiss.out');rewrite(output);
+
+  readln(n,r,q);
+
+  for i:= 1 to n*2 do
+
+    begin
+
+      id[0,i]:=i;
+
+      read(s[i]);
+
+    end;
+
+  for i:= 1 to n*2 do
+
+    read(w[i]);
+
+  qsort(1,2*n);
+
+  c:=0;
+
+  for i:= 1 to  r do
+
+     begin
+
+ 
+
+       for j:= 1 to n do
+
+         if w[id[c,j*2-1]]<w[id[c,j*2]] then
+
+             begin
+
+               inc(s[id[c,j*2]]);
+
+               k:=id[c,j*2-1];  id[c,j*2-1]:=id[c,j*2]; id[c,j*2]:=k;
+
+             end
+
+          else inc(s[id[c,j*2-1]]);
+
+       c:=1-c;  pwin:=1;  plose:=2;
+
+       for j:= 1 to n*2 do
+
+         if (pwin<=2*n) and (  ( s[ id[1-c,pwin] ] > s[ id[1-c,plose] ]) or (s[id[1-c,pwin]] = s[ id[1-c,plose] ] ) and ( id[1-c,pwin]< id[1-c,plose] ) ) then
+
+            begin
+
+              id[c,j]:=id[1-c,pwin];
+
+              inc(pwin,2);
+
+            end
+
+         else
+
+            begin
+
+              id[c,j]:=id[1-c,plose];
+
+              inc(plose,2);
+
+            end;
+
+     end;
+
+  writeln(id[c,q]);
+
+  close(input);close(output);
+
+end.
+
+ 
+
+四、表达式的值
+
+算法类似于表达式计算，一个符号栈，两个数据栈。记f(s,0)表示表达式s为0的方案数，f(s,1)表示表达式s为1的方案数。f(a+b,0) = f(a,0)*f(b,0) ，f(a+b,1) = f(a,0)*f(b,0)+f(a,0)*f(b,1)+f(a,1)*f(b,0)  , f(a*b,0)=f(a,0)*f(b,0) + f(a,1)*f(b,0) + f(a,0)*f(b,1) , f(a*b,1) = f(a,1) * f(b,1)
+
+program exp;
+
+const
+
+  maxn= 100010;
+
+  op:array[1..4] of char = ('(','+','*',')');
+
+  //                                   (  +  *  )
+
+  flag:array[1..4,1..4] of char = (
+
+                                { ( } ('<','<','<','='),
+
+                                { + } ('<','>','<','>'),
+
+                                { * } ('<','>','>','>'),
+
+                                { ) } ('>','>','>','>'));
+
+var
+
+  stack_op:array[1..maxn] of char;
+
+  stack_data0,stack_data1:array[1..maxn] of longint;
+
+  n,top_op,top_data,i,len:longint;
+
+  a0,a1,b0,b1,t0,t1:longint;
+
+  s:ansistring;
+
+  ch,now:char;
+
+procedure push_op(ch:char);
+
+  begin
+
+    inc(top_op);
+
+    stack_op[top_op]:=ch;
+
+  end;
+
+function pop_op:char;
+
+  begin
+
+    pop_op:= stack_op[top_op];
+
+    dec(top_op);
+
+  end;
+
+function gettop:char;
+
+  begin
+
+    gettop:=stack_op[top_op];
+
+  end;
+
+procedure push_data(a0,a1:longint);
+
+  begin
+
+    inc(top_data);
+
+    stack_data0[top_data]:=a0;
+
+    stack_data1[top_data]:=a1;
+
+  end;
+
+procedure pop_data(var  a0,a1:longint);
+
+  begin
+
+    a0:=stack_data0[top_data];
+
+    a1:=stack_data1[top_data];
+
+    dec(top_data);
+
+  end;
+
+function find(ch:char):integer;
+
+  var
+
+     i:longint;
+
+  begin
+
+    for i:= 1 to 4 do
+
+      if op[i]=ch then exit(i);
+
+  end;
+
+begin
+
+  assign(input,'exp.in');reset(input);
+
+  assign(output,'exp.out');rewrite(output);
+
+  top_op:=0;  top_data:=0;
+
+  push_op('(');  push_data(1,1);
+
+  readln(n);
+
+  readln(s);  s:=s+')';
+
+  len:=length(s);
+
+  i:=1;
+
+  while i<=len do
+
+    begin
+
+      if i=22 then
+
+        readln;
+
+      case flag[find(gettop),find(s[i])] of
+
+//        begin
+
+          '<': begin push_op(s[i]); if (s[i]<>'(') then push_data(1,1); inc(i); end;
+
+          '=': begin now:=pop_op; inc(i); end;
+
+          '>': begin
+
+                 pop_data(a0,a1);  pop_data(b0,b1);
+
+                 now:=pop_op;
+
+                 if now='+' then
+
+                   begin
+
+                     t0:=  (a0*b0) mod 10007;
+
+                     t1:=  ( (a0*b1) mod 10007  +(a1*b1) mod 10007 +  (a1*b0) mod 10007) mod 10007;
+
+                     push_data(t0,t1);
+
+                   end
+
+                 else
+
+                   begin
+
+                     t0:= ( (a0*b1) mod 10007 + (a1*b0) mod 10007 + (a0 * b0) mod 10007 ) mod 10007;
+
+                     t1:= (a1*b1) mod 10007;
+
+                     push_data(t0,t1);
+
+                   end;
+
+               end;
+
+       end;
+
+    end;
+
+  writeln(stack_data0[top_data]);
+
+  close(input); close(output);
+
+end.
+

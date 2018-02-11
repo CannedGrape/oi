@@ -1,0 +1,16 @@
+#!/bin/bash
+g++ -o match -g match.cpp
+while true;do
+  ./make>match.in
+  ./match
+  echo OK
+  #./dui<match.in>out
+  #if diff match.out out;then
+  #  echo AC
+  #else
+  #  echo WA
+  #  cp match.in wrongin
+  #  read
+  #  break
+  #fi
+done

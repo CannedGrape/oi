@@ -1,0 +1,504 @@
+第一题：
+
+水题，按照题目要求去枚举。
+注意，同一个字母加密后的字母是一样的，加密后一样的字母原字母也是一样的。
+
+var
+   s1,s2,s3:string;
+   a,b:array['A'..'Z']of char;
+   i:longint;
+   c:char;
+procedure main;
+begin
+     readln(s1);
+     readln(s2);
+     readln(s3);
+     fillchar(a,sizeof(a),' ');
+     fillchar(b,sizeof(b),' ');
+     for i:=1 to length(s1) do
+     if ((a[s1[i]]<>' ')and(a[s1[i]]<>s2[i]))
+         or((b[s2[i]]<>' ')and(b[s2[i]]<>s1[i])) then
+         begin
+             writeln('Failed');
+             exit;
+         end
+         else
+         begin
+              a[s1[i]]:=s2[i];
+              b[s2[i]]:=s1[i];
+         end;
+     for c:='A' to 'Z' do
+     if a[c]=' ' then
+     begin
+          writeln('Failed');
+          exit;
+     end;
+     for i:=1 to length(s3) do
+        write(a[s3[i]]);
+     writeln;
+
+end;
+begin
+     assign(input,'spy.in');
+     reset(input);
+     assign(output,'spy.out');
+     rewrite(output);
+     main;
+     close(input);
+     close(output);
+end.
+
+第二题：
+
+数论题，分解质因数。通过a0,a1,b0,b1确定X中每项质因子的最大幂数和最小幂数。然后再把每个质因子的幂数范围乘起来。
+
+PS:参考程序过10个点的总耗时为0.23秒,评测环境为2.10GHz 2.00GB
+
+const
+     maxn=100;
+     maxm=46341;
+type
+    data = record
+        n,c : longint;
+    end;
+    ans = record
+        n,min,max : longint;
+    end;
+    arr = array[0..maxn]of data;
+var
+    a0,a1,b0,b1     : longint;
+    fa0,fa1,fb0,fb1 : arr;
+    xmin,xmax,xn    : array[0..maxn]of longint;
+    bool            : array[1..maxm]of boolean;
+    next            : array[1..maxm]of longint;
+
+procedure change(    n : longint;var a:arr);
+var
+    i,k,t : longint;
+begin
+    fillchar(a,sizeof(a),0);
+    t:=0;
+    i:=2;
+    while n>1 do
+    begin
+if (i>trunc(sqrt(n)))and(t=0) then break;
+        if i=-1 then break;
+if n mod i=0 then
+begin
+     inc(t);
+     n:=n div i;
+end
+else
+begin
+     if t>0 then
+     begin
+       inc(a[0].n);
+             with a[a[0].n] do
+             begin
+                  n:=i;
+                  c:=t;
+             end;
+             t:=0;
+     end;
+     i:=next[i];
+end;
+    end;
+    if t>0 then
+    begin
+      inc(a[0].n);
+      a[a[0].n].n:=i;
+      a[a[0].n].c:=t;
+    end;
+    if n>1 then
+    begin
+      inc(a[0].n);
+      a[a[0].n].n:=n;
+      a[a[0].n].c:=1;
+    end;
+end; { change }
+function get(var a : arr;n:longint):longint;
+var
+    i : longint;
+begin
+    for i:=1 to a[0].n do
+if a[i].n=n then exit(a[i].c);
+    exit(0);
+end; { get }
+function min_(a,b : longint):longint;
+begin
+    if a<b then exit(a) else exit(b);
+end; { min }
+function max_(a,b : longint):longint;
+begin
+    if a>b then exit(a) else exit(b);
+end;
+
+procedure cmin(n   ,c : longint);
+var
+    i : longint;
+begin
+    for i:=1 to xn[0] do
+if xn[i]=n then
+begin
+        xmin[i]:=max_(xmin[i],c);
+     exit;
+end;
+    inc(xn[0]);
+    xn[xn[0]]:=n;
+    xmin[xn[0]]:=c;
+    xmax[xn[0]]:=maxlongint;
+end; { cmin }
+procedure cmax(n   ,c : longint);
+var
+    i : longint;
+begin
+    for i:=1 to xn[0] do
+if xn[i]=n then
+begin
+        xmax[i]:=min_(xmax[i],c);
+     exit;
+end;
+    inc(xn[0]);
+    xn[xn[0]]:=n;
+    xmax[xn[0]]:=c;
+    xmin[xn[0]]:=0;
+end; { cmin }
+procedure init;
+var
+   i,j:longint;
+begin
+     fillchar(bool,sizeof(bool),true);
+     for i:=2 to trunc(sqrt(maxm)) do
+       if bool[i] then
+       for j:=2 to maxm div i do
+          bool[i*j]:=false;
+     j:=-1;
+     fillchar(next,sizeof(next),255);
+     for i:=maxm downto 1 do
+     begin
+          next[i]:=j;
+          if bool[i] then j:=i;
+     end;
+
+end;
+procedure main;
+var
+    i,j,k,t: longint;
+begin
+    readln(a0,a1,b0,b1);
+    change(a0,fa0);
+    change(a1,fa1);
+    change(b0,fb0);
+    change(b1,fb1);
+    fillchar(xn,sizeof(xn),0);
+    fillchar(xmax,sizeof(xmax),0);
+    fillchar(xmin,sizeof(xmin),0);
+    for i:=1 to fa1[0].n do
+cmin(fa1[i].n,fa1[i].c);
+    for i:=1 to fb1[0].n do
+cmax(fb1[i].n,fb1[i].c);
+    for i:=1 to fb1[0].n do
+    begin
+         k:=get(fb0,fb1[i].n);
+         if k<fb1[i].c then
+         cmin(fb1[i].n,fb1[i].c);
+    end;
+    for i:=1 to fa0[0].n do
+    begin
+         k:=get(fa1,fa0[i].n);
+         if k<fa0[i].c then
+      cmax(fa0[i].n,k);
+    end;
+    for i:=1 to xn[0] do
+    begin
+if xmin[i]>xmax[i] then begin writeln(0);exit;end;
+if xmax[i]=maxlongint then begin writeln(0);exit;end;
+    end;
+    t:=1
+    ;
+    for i:=1 to xn[0] do
+t:=t*(xmax[i]-xmin[i]+1);
+    writeln(t);
+end; { main }
+var
+   tt:longint;
+begin
+    assign(input,'son.in');
+    reset(input);
+    assign(output,'son.out');
+    rewrite(output);
+    readln(tt);
+    init;
+    for tt:=tt downto 1 do
+    begin
+    main
+    end;
+    close(input);
+    close(output);
+end.
+
+第三题：
+
+图论题，两次SPFA，用a[i]表示从起点开始到i结点能经过的最小值，用b[i]表示从终点延反向边到达i结点能经过的最大值。Ans=max(b[i]-a[i])。
+
+const
+     maxn=100010;
+     maxm=1000010;
+type
+    data=record
+        t,f,next:longint;
+    end;
+var
+   n,m,ls:longint;
+   a,c,d,stack,v:array[0..maxn]of longint;
+   f:array[1..maxn]of boolean;
+   seg:array[1..maxm]of data;
+
+procedure insert_e(s,t,f1,f2:longint);
+begin
+      inc(ls);
+      seg[ls].t:=t;
+      seg[ls].f:=f1;
+      seg[ls].next:=a[s];
+      a[s]:=ls;
+      inc(ls);
+      seg[ls].t:=s;
+      seg[ls].f:=f2;
+      seg[ls].next:=a[t];
+      a[t]:=ls;
+end;
+procedure init;
+var
+   i,j,k,l:longint;
+begin
+    readln(n,m);
+    fillchar(a,sizeof(a),255);
+    ls:=0;
+    for i:=1 to n do read(v[i]);
+    for i:=1 to m do
+    begin
+         readln(j,k,l);
+         if l=1 then insert_e(j,k,1,2)
+         else insert_e(j,k,3,3);
+    end;
+end;
+function max(a,b:longint):longint;
+begin
+   if a>b then exit(a) else exit(b);
+end;
+function min(a,b:longint):longint;
+begin
+   if a<b then exit(a) else exit(b);
+end;
+procedure spfa1;
+var
+   i,k,open,closed:longint;
+begin
+     fillchar(c,sizeof(c),127);
+     fillchar(f,sizeof(f),0);
+     f[1]:=true;
+     open:=0;
+     closed:=1;
+     stack[1]:=1;
+     c[1]:=v[1];
+     while open<closed do
+     begin
+          inc(open);
+          k:=stack[open mod maxn];
+          f[k]:=false;
+          i:=a[k];
+          while i<>-1 do
+          begin
+               if (seg[i].f and 1=1)and(min(c[k],v[seg[i].t])<c[seg[i].t]) then
+               begin
+                     c[seg[i].t]:=min(c[k],v[seg[i].t]);
+                     if not f[seg[i].t] then
+                     begin
+                          f[seg[i].t]:=true;
+                          inc(closed);
+                          stack[closed mod maxn]:=seg[i].t;
+                     end;
+               end;
+               i:=seg[i].next;
+          end;
+     end;
+end;
+procedure spfa2;
+var
+   i,k,open,closed:longint;
+begin
+     fillchar(d,sizeof(d),0);
+     fillchar(f,sizeof(f),0);
+     f[n]:=true;
+     open:=0;
+     closed:=1;
+     stack[1]:=n;
+     d[n]:=v[n];
+     while open<closed do
+     begin
+          inc(open);
+          k:=stack[open mod maxn];
+          f[k]:=false;
+          i:=a[k];
+          while i<>-1 do
+          begin
+               if (seg[i].f and 2=2)and(max(d[k],v[seg[i].t])>d[seg[i].t]) then
+               begin
+                     d[seg[i].t]:=max(d[k],v[seg[i].t]);
+                     if not f[seg[i].t] then
+                     begin
+                          f[seg[i].t]:=true;
+                          inc(closed);
+                          stack[closed mod maxn]:=seg[i].t;
+                     end;
+               end;
+               i:=seg[i].next;
+          end;
+     end;
+end;
+procedure main;
+var
+i,ans:longint;
+begin
+    spfa1;
+    spfa2;
+    ans:=0;
+    for i:=1 to n do
+      ans:=max(ans,d[i]-c[i]);
+    writeln(ans);
+end;
+begin
+     assign(input,'trade.in');
+     reset(input);
+     assign(output,'trade.out');
+     rewrite(output);
+     init;
+     main;
+     close(input);
+     close(output);
+end.
+
+第四题：
+
+搜索题，有时候这个世界需要些暴力。DFS搜索，每次选取填入的数的方案数进行枚举。PS：据说从右下角直接枚举到左上角，比加剪枝也能拿95分。
+
+var
+   n,ans,l,time:longint;
+   a:array[1..81,1..3]of longint;
+   c:array[1..27,0..9]of boolean;
+   v:array[1..81]of longint;
+   d,d2,d3:array[1..81]of longint;
+   o:array[1..81]of longint;
+
+function max(a,b:longint):longint;
+begin
+    if a>b then exit(a) else exit(b);
+end;
+function min(a,b:longint):longint;
+begin
+    if a<b then exit(a) else exit(b);
+end;
+procedure init;
+var
+   i,j,k:longint;
+begin
+     for i:=1 to 9 do
+     for j:=1 to 9 do
+     begin
+          k:=(i-1)*9+j;
+          a[k,1]:=i;
+          a[k,2]:=j+9;
+          a[k,3]:=(i-1)div 3*3+(j-1)div 3+1+18;
+          v[k]:=10-max(abs(i-5),abs(j-5));
+     end;
+     fillchar(c,sizeof(c),1);
+     for i:=1 to 81 do
+     begin
+        read(d[i]);
+        c[a[i,1],d[i]]:=false;
+        c[a[i,2],d[i]]:=false;
+        c[a[i,3],d[i]]:=false;
+     end;
+end;
+procedure check;
+var
+   i,t:longint;
+begin
+     t:=0;
+     for i:=1 to 81 do
+        inc(t,d[i]*v[i]);
+     if t>ans then ans:=t;
+end;
+procedure dfs(dep:longint);
+var
+   i,k:longint;
+begin
+    if dep>l then begin check;exit;end;
+{   if dep<1 then begin check;exit;end;}
+    inc(time);
+    if time>10000000 then begin writeln(ans);close(input);
+close(output);halt;end;
+    k:=o[dep];
+    for i:=1 to 9 do
+    if c[a[k,1],i] and c[a[k,2],i] and c[a[k,3],i] then
+    begin
+         c[a[k,1],i]:=false;
+         c[a[k,2],i]:=false;
+         c[a[k,3],i]:=false;
+         d[k]:=i;
+         dfs(dep+1);
+         d[k]:=0;
+         c[a[k,1],i]:=true;
+         c[a[k,2],i]:=true;
+         c[a[k,3],i]:=true;
+    end;
+end;
+procedure main;
+var
+   i,j,k,t:longint;
+begin
+     d2:=d;
+     for i:=1 to 81 do
+        d3[i]:=9;
+     for i:=1 to 81 do
+        if d2[i]>0 then
+        begin
+             for j:=1 to 81 do
+               if (a[i,1]=a[j,1])or(a[i,2]=a[j,2])or(a[i,3]=a[j,3]) then
+                 dec(d3[j]);
+        end;
+     l:=0;
+     while true do
+     begin
+          k:=maxlongint;
+          for i:=1 to 81 do
+             if (d2[i]=0)and(d3[i]<k) then
+             begin
+                  k:=d3[i]*11+v[i];
+                  j:=i;
+             end;
+          if k=maxlongint then break;
+          inc(l);
+          o[l]:=j;
+          d2[j]:=10;
+          for i:=1 to 81 do
+               if (a[i,1]=a[j,1])or(a[i,2]=a[j,2])or(a[i,3]=a[j,3]) then
+                 dec(d3[j]);
+     end;    
+time:=0;
+     ans:=-1;
+     dfs(1);
+     writeln(ans);
+
+end;
+begin
+     assign(input,'sudoku.in');
+     reset(input);
+     assign(output,'sudoku.out');
+     rewrite(output);
+     init;
+     main;
+     close(input);
+     close(output);
+
+end.

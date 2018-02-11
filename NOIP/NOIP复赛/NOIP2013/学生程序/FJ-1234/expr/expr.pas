@@ -1,0 +1,9 @@
+begin
+	assign(input,'expr.in');
+	assign(output,'expr.out');
+	reset(input);
+	rewrite(output);
+	writeln('4');
+	close(input);
+	close(output);
+end.

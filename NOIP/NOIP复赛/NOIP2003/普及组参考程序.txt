@@ -1,0 +1,220 @@
+第九届普及组复赛答案参考程序  
+ 
+
+第一题:
+Var s,f,g:string;
+    k1,k2,j1,j2,l,i:Integer;
+    e:boolean;
+Begin
+  Write(''Input file Name:  ''); readln(f);
+  Write(''Output file Name: ''); readln(g);
+  assign(Input,f);  assign(Output,g);
+  reset(Input);     rewrite(Output);
+  k1:=0;  k2:=0; j1:=0;  j2:=0;
+  e:=False;
+  While Not(eof(Input)) and Not(e) do
+  Begin
+    readln(s);
+    l:=length(s);
+    For i:=1 to l do
+     Begin
+      If ((k1>=11) or (k2>=11)) and (abs(k1-k2)>=2) Then
+      Begin writeln(k1,'':'',k2);
+            k1:=0; k2:=0
+      End;
+      If s[i]=''W'' Then k1:=k1+1;
+      If s[i]=''L'' Then k2:=k2+1;
+      If s[i]=''E'' Then Begin e:=True; break End;
+     End;
+  End;
+  writeln(k1,'':'',k2);
+  writeln;
+  close(Input);
+  assign(Input,f);
+  reset(Input);
+  k1:=0; k2:=0;
+  e:=false;
+  While Not(eof(Input)) and Not(e) do
+  Begin
+    readln(s);
+    l:=length(s);
+    For i:=1 to l do
+     Begin
+      If ((k1>=21) or (k2>=21)) and (abs(k1-k2)>=2) Then
+      Begin writeln(k1,'':'',k2);
+            k1:=0; k2:=0
+      End;
+      If s[i]=''W'' Then k1:=k1+1;
+      If s[i]=''L'' Then k2:=k2+1;
+      If s[i]=''E'' Then Begin e:=True; break End;
+     End;
+  End;
+  writeln(k1,'':'',k2);
+  close(Input);  close(Output)
+End.
+====================================================
+第二题：
+Const Maxn=50;
+      Maxm=9;
+Var h:array[1..Maxn] of Integer;
+    g:array[1..Maxn,1..Maxn] of LongInt;
+    Fmin,Fmax:array[1..Maxn,1..Maxm] Of Longint;
+    n,m,i,j,k,l:Integer;
+    Max,Min,Tmax,Tmin,s:Longint;
+    fi,fo:String;
+Procedure readfile;
+Begin
+  Write(''Input File Name: ''); Readln(fi);
+  Write(''Output FIle Name:''); Readln(fo);
+  Assign(Input,fi); Assign(Output,fo);
+  Reset(Input);  Rewrite(Output);
+  Readln(n,m);
+  For i:=1 to n do
+   Readln(h[i]);
+  Close(Input);
+End;
+Procedure init;
+Begin
+  For i:=1 to n do
+   For j:=i to n do
+    Begin
+     s:=0;
+     For k:=i to j do s:=s+h[k];
+     s:=s mod 10;
+     If s<0 Then s:=10+s;
+     g[i,j]:=s;
+    End;
+  For i:=1 to n do
+   For j:=1 to m do
+     Begin Fmin[i,j]:=1;  Fmax[i,j]:=1 End;
+  For i:=1 to n do
+    Begin
+     Fmin[i,1]:=g[1,i];  Fmax[i,1]:=g[1,i]
+    End
+End;
+Procedure move;
+Var temp,p:Integer;
+Begin
+  temp:=h[1];
+  For p:=1 to n-1 do
+    h[p]:=h[p+1];
+  h[n]:=temp;
+End;
+Procedure solute;
+Begin
+ Max:=-Maxint; Min:=Maxint;
+ For l:=1 to n do
+ Begin
+  Init;
+  For i:=2 to n do
+   For j:=2 to m do
+    Begin
+     Tmax:=-Maxint;
+     Tmin:=Maxint;
+     For k:=j-1 to i-1 do
+      Begin
+        If TMax<Fmax[k,j-1]*g[k+1,i] Then Tmax:=Fmax[k,j-1]*g[k+1,i];
+        If TMin>Fmin[k,j-1]*g[k+1,i] Then Tmin:=Fmin[k,j-1]*g[k+1,i];
+      End;
+     Fmax[i,j]:=Tmax; Fmin[i,j]:=Tmin;
+    End;
+    If Max<Fmax[n,m] Then Max:=Fmax[n,m];
+    If Min>Fmin[n,m] Then Min:=Fmin[n,m];
+    move;
+   End;
+End; 
+
+Procedure Print;
+Begin
+ Writeln(Min);
+ Writeln(Max);
+ close(output);
+End;
+Begin
+  Readfile;
+  Solute;
+  Print
+End.
+====================================================
+第三题：
+Const Maxn=18;
+Var n,i,j,k:Integer;
+    a,b,c,d:Array[1..Maxn] of integer;
+    s:real;
+    fi,fo:string;
+Begin
+ write(''Input file name: '');  readln(fi);
+ write(''Output file Name: ''); readln(fo);
+ assign(Input,fi);  assign(output,fo);
+ reset(Input);  rewrite(Output);
+ Readln(n);
+ For i:=1 to n do
+  Begin
+   a[i]:=2*n-i+1;
+   b[i]:=i;
+  End;
+ For k:=2 to n do
+  For i:=1 to n do
+   For j:=1 to n do
+    If (a[i] mod k=0) and (b[j] mod k=0) Then Begin a[i]:=a[i] div k; b[j]:=b[j] div k End;
+
+ s:=1;
+ For i:=1 to n do
+    s:=s*a[i];
+ s:=s/(n+1);
+ Writeln(s:0:0);
+ close(input); close(output);
+End.
+====================================================
+第四题：
+Const Maxn=500;
+Var
+    fi,fo:string;
+    N:Array[1..Maxn] of Byte;
+    i,j,k,s,m:longint;
+    p,p0:longint;
+Begin
+ Write(''Input file name: '');  readln(fi);
+ write(''Output file name: ''); readln(fo);
+ assign(Input,fi);  assign(output,fo);
+ reset(Input);  rewrite(Output);
+ Readln(p);
+ writeln(Trunc((p*Ln(2))/Ln(10)+1));
+ For i:=1 to Maxn do N[i]:=0;
+ N[1]:=1;
+ m:=1;
+ For i:=1 to 26 do m:=m*2;
+ p0:=p mod 26;
+ p:=p div 26;
+ For i:=1 to p do
+  Begin
+   k:=0;
+   For j:=1 to Maxn do
+    Begin
+      s:=N[j]*m+k;
+      k:=s div 10;
+      N[j]:=s mod 10
+    End;
+   End;
+  For i:=1 to p0 do
+  Begin
+   k:=0;
+   For j:=1 to Maxn do
+    Begin
+      s:=N[j]*2+k;
+      k:=s div 10;
+      N[j]:=s mod 10
+    End;
+   End;
+ N[1]:=N[1]-1;
+ For i:=9 downto 0 do
+   Begin
+    For j:=50 downto 1 Do
+     Write(N[i*50+j]);
+    Writeln;
+   End;
+ Close(Input);  Close(Output)
+End.
+
+ 
+ 

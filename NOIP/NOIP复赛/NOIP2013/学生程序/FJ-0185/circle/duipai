@@ -1,0 +1,15 @@
+#!/bin/bash
+g++ -o circle -g circle.cpp
+while true;do
+  ./make>circle.in
+  ./circle
+  ./dui<circle.in>out
+  if diff circle.out out;then
+    echo AC
+  else
+    echo WA
+    cp circle.in wrongin
+    read
+    break
+  fi
+done

@@ -1,0 +1,119 @@
+//rp++
+#include<iostream>
+#include<algorithm>
+#include<cstdio>
+#include<cstring>
+#include<queue>
+#include<cmath>
+#include<cstdlib>
+using namespace std;
+int i,j,n,m,k,q;
+int a[50][50],x2,y2,x3,y3;
+int f1[1000100],f2[1000100],ff[1000100],h,t,fx[1000100],fy[1000100];
+void bfs(int h)
+{
+	if(a[f1[h]+1][f2[h]]==1)
+	{
+		t++;
+		f1[t]=f1[h]+1;
+		f2[t]=f2[h];
+		ff[t]=ff[h]+1;
+		if(f1[t]==fx[h]&&f2[t]==fy[h])
+		{
+			fx[t]=f1[h];
+			fy[t]=f2[h];
+		}
+		else
+		{
+			fx[t]=fx[h];
+			fy[t]=fy[h];
+		}
+	}
+	if(a[f1[h]-1][f2[h]]==1)
+	{
+		t++;
+		f1[t]=f1[h]-1;
+		f2[t]=f2[h];
+		ff[t]=ff[h]+1;
+		if(f1[t]==fx[h]&&f2[t]==fy[h])
+		{
+			fx[t]=f1[h];
+			fy[t]=f2[h];
+		}
+		else
+		{
+			fx[t]=fx[h];
+			fy[t]=fy[h];
+		}
+	}
+	if(a[f1[h]][f2[h]+1]==1)
+	{
+		t++;
+		f1[t]=f1[h];
+		f2[t]=f2[h]+1;
+		ff[t]=ff[h]+1;
+		if(f1[t]==fx[h]&&f2[t]==fy[h])
+		{
+			fx[t]=f1[h];
+			fy[t]=f2[h];
+		}
+		else
+		{
+			fx[t]=fx[h];
+			fy[t]=fy[h];
+		}
+	}
+	if(a[f1[h]][f2[h]-1]==1)
+	{
+		t++;
+		f1[t]=f1[h];
+		f2[t]=f2[h]-1;
+		ff[t]=ff[h]+1;
+		if(f1[t]==fx[h]&&f2[t]==fy[h])
+		{
+			fx[t]=f1[h];
+			fy[t]=f2[h];
+		}
+		else
+		{
+			fx[t]=fx[h];
+			fy[t]=fy[h];
+		}
+	}
+	return ;
+}
+int main()
+{
+	freopen("puzzle.in","r",stdin);
+	freopen("puzzle.out","w",stdout);
+	memset(a,0,sizeof(a));
+	scanf("%d%d%d",&n,&m,&q);
+	for(i=1;i<=n;i++)
+    {
+		for(j=1;j<=n;j++)
+		{
+			scanf("%d",&a[i][j]);
+		}
+	}
+	for(i=1;i<=q;i++)
+	{
+	   scanf("%d%d%d%d%d%d",&f1[1],&f2[1],&x2,&y2,&x3,&y3);
+	   h=0;t=1;ff[1]=0;
+	   fx[1]=x2;fy[1]=y2;
+	   while(h<=t)
+	   {
+			if(t==600000) 
+			{
+				break;
+			}
+			else
+			{
+				  h++;
+				  bfs(h);
+				  
+			}
+	   }
+    cout<<-1<<endl;
+	}
+	return 0;
+}

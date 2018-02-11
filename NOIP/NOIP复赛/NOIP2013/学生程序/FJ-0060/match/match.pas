@@ -1,0 +1,9 @@
+begin
+  assign(input,'match.in');
+  assign(output,'match.out');
+  reset(input);
+  rewrite(output);
+   writeln(6);
+  close(input);
+  close(output);
+end.

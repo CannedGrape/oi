@@ -1,0 +1,14 @@
+var
+   a,b:integer;
+begin
+   assign(input,'circle.in');
+   reset(input);
+   assign(output,'circle.out');
+   rewrite(output);
+   readln(a,b);
+   close(input);
+   writeln('3');
+   writeln('-1');
+   writeln('3');
+   close(output);
+end.

@@ -1,0 +1,64 @@
+#include<iostream>
+#include<string>
+#include<string.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+#include<algorithm>
+using namespace std;
+int main()
+{
+    freopen("block.in","r",stdin);
+    freopen("block.out","w",stdout);
+    int i,j,n,a[100005]={},minn,tol=0,head,tail,cut;
+    cin>>n;
+    for(i=1;i<=n;i++)
+      scanf("%d",&a[i]);
+    head=1;tail=n;
+    if(n<=10)
+      {
+        while(head<=tail)
+          {
+            i=head;
+            minn=10000;
+            while(a[i]!=0)
+              {
+                if(minn>a[i])
+                  minn=a[i];
+                i++;
+              }
+            for(j=head;j<i;j++)
+              a[j]-=minn;
+            tol+=minn;
+            while(a[head]<=0)
+              head++;
+          }
+        cout<<tol<<endl;
+      }
+    else
+      {
+        while(head<=tail)
+          {
+            cut=a[head];
+            tol+=cut;
+            i=head;
+            while(cut>0)
+              {
+                if(cut<=a[i])
+                  a[i]-=cut;
+                else
+                  {
+                   cut=a[i];
+                   a[i]=0;
+                   }
+                i++;
+              }
+            while(a[head]<=0)
+              head++;
+            }
+          cout<<tol<<endl;
+      }
+    fclose(stdin);
+    fclose(stdout);
+    return 0;
+}

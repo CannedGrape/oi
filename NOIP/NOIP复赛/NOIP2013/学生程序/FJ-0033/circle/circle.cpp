@@ -1,0 +1,89 @@
+#include<iostream>
+#include<string>
+#include<string.h>
+#include<math.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<algorithm>
+using namespace std;
+bool mark[1000000]={},mi[200]={};
+int sushu[100000]={};
+int main()
+{
+    freopen("circle.in","r",stdin);
+    freopen("circle.out","w",stdout);
+    unsigned int i,j,n,m,x,deal,tol=0;
+    unsigned long long k,bei=1,momo=1,bb,ans;
+    cin>>n>>m>>k>>x;
+    j=0;
+    for(i=2;i<=m||i<=n;i++)
+      {
+        if(mark[i]==0)
+          {
+            j++;
+            sushu[j]=i;
+            tol++;
+            for(deal=i*2;deal<m||deal<=n;deal+=i)
+               mark[deal]=1;
+          }
+      }
+    deal=1;
+    i=n;j=m;
+    while(j!=1||i!=1)
+      {
+        if(i%sushu[deal]==0&&j%sushu[deal]==0)
+          {
+            bei=bei*sushu[deal];
+            i=i/sushu[deal];
+            j=j/sushu[deal];
+          }
+        else
+          deal++;
+        if(mark[i]==0||mark[j]==0)
+          {
+            bei=bei*i*j;
+            i=1;j=1;
+          }
+      }
+    bei=bei/m;
+    if(k<9)
+      {
+       for(i=1;i<=k;i++)
+         momo=momo*10;
+       momo=momo%bei;
+       x=x+momo*m;
+       x=x%n;
+       cout<<x<<endl;
+       fclose(stdin);
+       fclose(stdout);
+       return 0;
+      }
+    else
+    {
+     for(i=1;i<=19;i++)
+      momo=momo*10;
+     momo=momo%bei;
+     momo=(momo*10)%bei;
+     k=k/20;
+     i=1;
+     while(k!=1)
+       {
+        i++;
+        mi[i]=k%2;
+        k=k/2;
+       }
+     mi[i]=1;
+     bb=momo;ans=1;
+     for(j=1;j<=i;j++)
+       {
+         if(mi[j]==1)
+           ans=ans*bb;
+         bb=(bb*bb)%bei;
+         ans=ans%bei;
+       }
+     cout<<ans<<endl;
+     }
+    fclose(stdin);
+    fclose(stdout);
+    return 0;
+}

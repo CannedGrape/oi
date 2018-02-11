@@ -1,0 +1,31 @@
+10 7 20
+A
+AA
+AAA
+AAAA
+AAAAA
+AAAAAA
+AAAAAAA
+AAAAAAAA
+AAAAAAAAA
+AAAAAAAAAA
+A: Today is Monday.
+AA: Today is Monday.
+AAA: Today is Monday.
+AAAA: Today is Monday.
+AAAAA: Today is Monday.
+AAAAAA: Today is Monday.
+AAAAAAA: Today is Monday.
+AAAAAAAA: Today is Sunday.
+AAAAAAAAA: Today is Sunday.
+AAAAAAAAAA: Today is Sunday.
+AAAAAAAAAA: AAA is not guilty.
+AAAAAAAAA: A is not guilty.
+AAAAAAAA: AAAAA is not guilty.
+AAAAAAA: AAAAAA is guilty.
+AAAAAA: AAAAAAAAAA is guilty.
+AAAAA: AAAAAAAA is guilty.
+AAAA: AAAAAAA is guilty.
+AAA: AA is guilty.
+AA: AAAAAAAAA is guilty.
+A: AAAAA is guilty.

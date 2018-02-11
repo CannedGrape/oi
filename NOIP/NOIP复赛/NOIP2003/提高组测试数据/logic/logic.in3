@@ -1,0 +1,18 @@
+7 3 10
+MONDAY
+TUESDAY
+WEDNESDAY
+THURSDAY
+FRIDAY
+SATURDAY
+SUNDAY
+MONDAY: Today is Monday.
+TUESDAY: Today is Tuesday.
+WEDNESDAY: Today is Wednesday.
+THURSDAY: Today is Thursday.
+FRIDAY: MONDAY is not guilty.
+FRIDAY: TUESDAY is not guilty.
+FRIDAY: WEDNESDAY is not guilty.
+FRIDAY: THURSDAY is not guilty.
+SATURDAY: SUNDAY is not guilty.
+SUNDAY: SATURDAY is not guilty.
