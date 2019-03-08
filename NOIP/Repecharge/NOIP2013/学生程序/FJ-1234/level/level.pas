@@ -1,9 +1,0 @@
-begin
-	assign(input,'level.in');
-	assign(output,'level.out');
-	reset(input);
-	rewrite(output);
-	writeln('2');
-	close(input);
-	close(output);
-end.
