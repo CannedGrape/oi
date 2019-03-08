@@ -1,6 +1,0 @@
-[(
-"di"
-"din"
-"dinto"
-"dintos"
-)]
