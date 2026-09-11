@@ -1,0 +1,106 @@
+On branch main
+Your branch is ahead of 'origin/main' by 4 commits.
+  (use "git push" to publish your local commits)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	renamed:    Round1/2019/2019-CCF-CSP-J1（C++）Ans.jpg -> Round1/2019/CSP-J-2019-初赛-C++-答案.jpg
+	renamed:    Round1/2019/cspjs2019hj_cpp.pdf -> Round1/2019/CSP-J-2019-初赛-C++-试题-2.pdf
+	renamed:    Round1/2019/2019-CCF-CSP-J1（C++）.pdf -> Round1/2019/CSP-J-2019-初赛-C++-试题.pdf
+	renamed:    Round1/2019/cspjs2019hj_c.pdf -> Round1/2019/CSP-J-2019-初赛-C-试题.pdf
+	renamed:    Round1/2019/cspjs2019hj_pas.pdf -> Round1/2019/CSP-J-2019-初赛-Pascal-试题.pdf
+	renamed:    Round1/2019/cspjs2019hj_sol.pdf -> Round1/2019/CSP-J-2019-初赛-题解.pdf
+	renamed:    Round1/2019/2019-CCF-CSP-S1（C++）Ans.pdf -> Round1/2019/CSP-S-2019-初赛-C++-答案.pdf
+	renamed:    Round1/2019/2019-CCF-CSP-S1（C++）.pdf -> Round1/2019/CSP-S-2019-初赛-C++-试题-2.pdf
+	renamed:    Round1/2019/cspjs2019hs_cpp.pdf -> Round1/2019/CSP-S-2019-初赛-C++-试题.pdf
+	renamed:    Round1/2019/cspjs2019hs_c.pdf -> Round1/2019/CSP-S-2019-初赛-C-试题.pdf
+	renamed:    Round1/2019/cspjs2019hs_pas.pdf -> Round1/2019/CSP-S-2019-初赛-Pascal-试题.pdf
+	renamed:    Round1/2019/cspjs2019hs_sol.pdf -> Round1/2019/CSP-S-2019-初赛-题解.pdf
+	renamed:    Round1/2020/cspjs2020hj_cpp.pdf -> Round1/2020/CSP-J-2020-初赛-C++-试题-2.pdf
+	renamed:    Round1/2020/2020 csp-j1 c++.pdf -> Round1/2020/CSP-J-2020-初赛-C++-试题.pdf
+	renamed:    Round1/2020/cspjs2020hj_c.pdf -> Round1/2020/CSP-J-2020-初赛-C-试题.pdf
+	renamed:    Round1/2020/cspjs2020hj_pas.pdf -> Round1/2020/CSP-J-2020-初赛-Pascal-试题.pdf
+	renamed:    Round1/2020/cspjs2020hj_sol.pdf -> Round1/2020/CSP-J-2020-初赛-题解.pdf
+	renamed:    Round1/2020/cspjs2020hs_cpp.pdf -> Round1/2020/CSP-S-2020-初赛-C++-试题.pdf
+	renamed:    Round1/2020/cspjs2020hs_c.pdf -> Round1/2020/CSP-S-2020-初赛-C-试题.pdf
+	renamed:    Round1/2020/cspjs2020hs_pas.pdf -> Round1/2020/CSP-S-2020-初赛-Pascal-试题.pdf
+	renamed:    Round1/2020/cspjs2020hs_sol.pdf -> Round1/2020/CSP-S-2020-初赛-题解.pdf
+	renamed:    Round1/2021/cspjs2021hj_cpp.pdf -> Round1/2021/CSP-J-2021-初赛-C++-试题-2.pdf
+	renamed:    Round1/2021/2021 CSP-J1 C++.pdf -> Round1/2021/CSP-J-2021-初赛-C++-试题.pdf
+	renamed:    Round1/2021/cspjs2021hj_c.pdf -> Round1/2021/CSP-J-2021-初赛-C-试题.pdf
+	renamed:    Round1/2021/cspjs2021hj_pas.pdf -> Round1/2021/CSP-J-2021-初赛-Pascal-试题.pdf
+	renamed:    Round1/2021/cspjs2021hj_sol.pdf -> Round1/2021/CSP-J-2021-初赛-题解.pdf
+	renamed:    Round1/2021/2021 CSP-J1_S1 C++语言试题及参考答案.pdf -> Round1/2021/CSP-JS-2021-初赛-C++-试题与答案.pdf
+	renamed:    Round1/2021/cspjs2021hs_cpp.pdf -> Round1/2021/CSP-S-2021-初赛-C++-试题-2.pdf
+	renamed:    Round1/2021/2021 CSP-S1 C++.pdf -> Round1/2021/CSP-S-2021-初赛-C++-试题.pdf
+	renamed:    Round1/2021/cspjs2021hs_c.pdf -> Round1/2021/CSP-S-2021-初赛-C-试题.pdf
+	renamed:    Round1/2021/cspjs2021hs_pas.pdf -> Round1/2021/CSP-S-2021-初赛-Pascal-试题.pdf
+	renamed:    Round1/2021/cspjs2021hs_sol.pdf -> Round1/2021/CSP-S-2021-初赛-题解.pdf
+	renamed:    Round1/2022/CSP-J 入门组 初赛 第1轮.pdf -> Round1/2022/CSP-J-2022-初赛-试题-2.pdf
+	renamed:    Round1/2022/cspjs2022hj.pdf -> Round1/2022/CSP-J-2022-初赛-试题-3.pdf
+	renamed:    Round1/2022/2022 CCF CSP-J1 入门组 初赛试题.pdf -> Round1/2022/CSP-J-2022-初赛-试题.pdf
+	renamed:    Round1/2022/cspjs2022hj_sol.pdf -> Round1/2022/CSP-J-2022-初赛-题解.pdf
+	renamed:    Round1/2022/cspjs2022hsa.pdf -> Round1/2022/CSP-S-2022-初赛-答案.pdf
+	renamed:    Round1/2022/CSP-S1 2022.pdf -> Round1/2022/CSP-S-2022-初赛-试题-2.pdf
+	renamed:    Round1/2022/cspjs2022hs.pdf -> Round1/2022/CSP-S-2022-初赛-试题-3.pdf
+	renamed:    Round1/2022/2022 CCF CSP-S1 提高组 初赛试题.pdf -> Round1/2022/CSP-S-2022-初赛-试题.pdf
+	renamed:    Round1/2022/cspjs2022hs_sol.pdf -> Round1/2022/CSP-S-2022-初赛-题解.pdf
+	renamed:    Round1/2023/CSP-J 2023 答案.pdf -> Round1/2023/CSP-J-2023-初赛-答案.pdf
+	renamed:    Round1/2023/CSP-J 2023 答题纸.pdf -> Round1/2023/CSP-J-2023-初赛-答题纸.pdf
+	renamed:    Round1/2023/CSP-J 2023.pdf -> Round1/2023/CSP-J-2023-初赛-试题.pdf
+	renamed:    Round1/2023/CSP-S 2023答案及解析/processed_image (10).png -> Round1/2023/CSP-S 2023答案及解析/processed_image_(10).png
+	renamed:    Round1/2023/CSP-S 2023答案及解析/processed_image (11).png -> Round1/2023/CSP-S 2023答案及解析/processed_image_(11).png
+	renamed:    Round1/2023/CSP-S 2023答案及解析/processed_image (12).png -> Round1/2023/CSP-S 2023答案及解析/processed_image_(12).png
+	renamed:    Round1/2023/CSP-S 2023答案及解析/processed_image (13).png -> Round1/2023/CSP-S 2023答案及解析/processed_image_(13).png
+	renamed:    Round1/2023/CSP-S 2023答案及解析/processed_image (14).png -> Round1/2023/CSP-S 2023答案及解析/processed_image_(14).png
+	renamed:    Round1/2023/CSP-S 2023答案及解析/processed_image (15).png -> Round1/2023/CSP-S 2023答案及解析/processed_image_(15).png
+	renamed:    Round1/2023/CSP-S 2023答案及解析/processed_image (16).png -> Round1/2023/CSP-S 2023答案及解析/processed_image_(16).png
+	renamed:    Round1/2023/CSP-S 2023答案及解析/processed_image (17).png -> Round1/2023/CSP-S 2023答案及解析/processed_image_(17).png
+	renamed:    Round1/2023/CSP-S 2023答案及解析/processed_image (18).png -> Round1/2023/CSP-S 2023答案及解析/processed_image_(18).png
+	renamed:    Round1/2023/CSP-S 2023答案及解析/processed_image (19).png -> Round1/2023/CSP-S 2023答案及解析/processed_image_(19).png
+	renamed:    Round1/2023/CSP-S 2023答案及解析/processed_image (20).png -> Round1/2023/CSP-S 2023答案及解析/processed_image_(20).png
+	renamed:    Round1/2023/CSP-S 2023答案及解析/processed_image (7).png -> Round1/2023/CSP-S 2023答案及解析/processed_image_(7).png
+	renamed:    Round1/2023/CSP-S 2023答案及解析/processed_image (8).png -> Round1/2023/CSP-S 2023答案及解析/processed_image_(8).png
+	renamed:    Round1/2023/CSP-S 2023答案及解析/processed_image (9).png -> Round1/2023/CSP-S 2023答案及解析/processed_image_(9).png
+	renamed:    Round1/2023/CSP-S 2023 答案.pdf -> Round1/2023/CSP-S-2023-初赛-答案.pdf
+	renamed:    Round1/2023/CSP-S 2023 答题纸.pdf -> Round1/2023/CSP-S-2023-初赛-答题纸.pdf
+	renamed:    Round1/2023/CSP-S 2023.pdf -> Round1/2023/CSP-S-2023-初赛-试题.pdf
+	renamed:    Round1/2024/CSP-J1-2024.pdf -> Round1/2024/CSP-J-2024-初赛-试题.pdf
+	renamed:    Round1/2024/CSP-S1-2024.pdf -> Round1/2024/CSP-S-2024-初赛-试题.pdf
+	renamed:    Round2/2019/CSP-J-data.7z -> Round2/2019/CSP-J-2019-复赛-测试数据.7z
+	renamed:    Round2/2019/2019-CCF-CSP-J2.pdf -> Round2/2019/CSP-J-2019-复赛-试题.pdf
+	renamed:    Round2/2019/CSP-S-day1-data.7z -> Round2/2019/CSP-S-2019-复赛-Day1-测试数据.7z
+	renamed:    Round2/2019/2019-CCF-CSP-S2-day1.pdf -> Round2/2019/CSP-S-2019-复赛-Day1-试题.pdf
+	renamed:    Round2/2019/CSP-S-day2-data.7z -> Round2/2019/CSP-S-2019-复赛-Day2-测试数据.7z
+	renamed:    Round2/2019/2019-CCF-CSP-S2-day2.pdf -> Round2/2019/CSP-S-2019-复赛-Day2-试题.pdf
+	renamed:    Round2/2020/CSP-J_Data.7z -> Round2/2020/CSP-J-2020-复赛-测试数据.7z
+	renamed:    Round2/2020/2020_CSP-J2.pdf -> Round2/2020/CSP-J-2020-复赛-试题.pdf
+	renamed:    Round2/2020/CSP-S-call.7z -> Round2/2020/CSP-S-2020-复赛-测试数据-call.7z
+	renamed:    Round2/2020/CSP-S-julian.7z -> Round2/2020/CSP-S-2020-复赛-测试数据-julian.7z
+	renamed:    Round2/2020/CSP-S-snakes.7z -> Round2/2020/CSP-S-2020-复赛-测试数据-snakes.7z
+	renamed:    Round2/2020/CSP-S-zoo.7z -> Round2/2020/CSP-S-2020-复赛-测试数据-zoo.7z
+	renamed:    Round2/2020/2020_CSP-S2.pdf -> Round2/2020/CSP-S-2020-复赛-试题.pdf
+	renamed:    Round2/2021/CSP2021-J2-Data.zip -> Round2/2021/CSP-J-2021-复赛-测试数据.zip
+	renamed:    Round2/2021/2021 CSP-J2.pdf -> Round2/2021/CSP-J-2021-复赛-试题.pdf
+	renamed:    Round2/2021/CSP2021-S2-Data.zip -> Round2/2021/CSP-S-2021-复赛-测试数据.zip
+	renamed:    Round2/2021/2021 CSP-S2.pdf -> Round2/2021/CSP-S-2021-复赛-试题.pdf
+	renamed:    Round2/2022/CSP2022-J2-Data.zip -> Round2/2022/CSP-J-2022-复赛-测试数据.zip
+	renamed:    Round2/2022/2022 CSP-J2.pdf -> Round2/2022/CSP-J-2022-复赛-试题.pdf
+	renamed:    Round2/2022/2022 CSP-S2.pdf -> Round2/2022/CSP-S-2022-复赛-试题.pdf
+	renamed:    Round2/2023/cspjs2023fj.pdf -> Round2/2023/CSP-J-2023-复赛-试题.pdf
+	renamed:    Round2/2023/cspjs2023fs.pdf -> Round2/2023/CSP-S-2023-复赛-试题.pdf
+	renamed:    Round2/2024/CSP-J evaldata.zip -> Round2/2024/CSP-J-2024-复赛-测试数据.zip
+	renamed:    Round2/2024/CSP-J.pdf -> Round2/2024/CSP-J-2024-复赛-试题.pdf
+	renamed:    Round2/2024/CSP-S evaldata.zip -> Round2/2024/CSP-S-2024-复赛-测试数据.zip
+	renamed:    Round2/2024/CSP-S.pdf -> Round2/2024/CSP-S-2024-复赛-试题.pdf
+	renamed:    Round2/2025/CSP-JS2025入门级题目知识构成分析报告.pdf -> Round2/2025/CSP-J-2025-复赛-分析报告.pdf
+	renamed:    Round2/2025/CSP-JS2025第二轮入门级测试数据.zip -> Round2/2025/CSP-J-2025-复赛-测试数据.zip
+	renamed:    Round2/2025/2025 CSP-J第二轮.pdf -> Round2/2025/CSP-J-2025-复赛-试题.pdf
+	renamed:    Round2/2025/CSP-JS第二轮提高级题目知识构成分析报告.pdf -> Round2/2025/CSP-S-2025-复赛-分析报告.pdf
+	renamed:    Round2/2025/CSP-JS2025第二轮提高级测试数据.zip -> Round2/2025/CSP-S-2025-复赛-测试数据.zip
+	renamed:    Round2/2025/2025 CSP-S第二轮.pdf -> Round2/2025/CSP-S-2025-复赛-试题.pdf
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	rename.log
+

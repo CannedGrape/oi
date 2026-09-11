@@ -1,0 +1,84 @@
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	renamed:    ioi1994/data.zip -> ioi1994/IOI-1994-测试数据.zip
+	renamed:    ioi1994/Ioi94-1.doc -> ioi1994/IOI-1994-试题-1.doc
+	renamed:    ioi1994/Ioi94-2.doc -> ioi1994/IOI-1994-试题-2.doc
+	renamed:    ioi1994/Ioi94-3.doc -> ioi1994/IOI-1994-试题-3.doc
+	renamed:    ioi1994/Ioi94-4.doc -> ioi1994/IOI-1994-试题-4.doc
+	renamed:    ioi1994/Ioi94-5.doc -> ioi1994/IOI-1994-试题-5.doc
+	renamed:    ioi1994/Ioi94-6.doc -> ioi1994/IOI-1994-试题-6.doc
+	renamed:    ioi1995/IOI'95 Task 1-1 Packing.htm -> ioi1995/IOI-1995-1-1Packing-试题.htm
+	renamed:    ioi1995/IOI'95 Task Letter Game.htm -> ioi1995/IOI-1995-LetterGame-试题.htm
+	renamed:    ioi1995/IOI'95 Task Printing.htm -> ioi1995/IOI-1995-Printing-试题.htm
+	renamed:    ioi1995/IOI'95 Task Shopping.htm -> ioi1995/IOI-1995-Shopping-试题.htm
+	renamed:    ioi1995/IOI'95 Task Street Race.htm -> ioi1995/IOI-1995-StreetRace-试题.htm
+	renamed:    ioi1995/IOI'95 Task Wires and Switches.htm -> ioi1995/IOI-1995-WiresAndSwitches-试题.htm
+	renamed:    ioi1995/testdata.zip -> ioi1995/IOI-1995-测试数据.zip
+	renamed:    ioi1995/Ioi95-1.doc -> ioi1995/IOI-1995-试题-1.doc
+	renamed:    ioi1995/Ioi95-2.doc -> ioi1995/IOI-1995-试题-2.doc
+	renamed:    ioi1995/Ioi95-3.doc -> ioi1995/IOI-1995-试题-3.doc
+	renamed:    ioi1995/Ioi95-4.doc -> ioi1995/IOI-1995-试题-4.doc
+	renamed:    ioi1995/Ioi95-5.doc -> ioi1995/IOI-1995-试题-5.doc
+	renamed:    ioi1995/Ioi95-6.doc -> ioi1995/IOI-1995-试题-6.doc
+	renamed:    ioi1996/TESTDATA.zip -> ioi1996/IOI-1996-测试数据.zip
+	renamed:    ioi1996/chinese/Ioi96-1.doc -> ioi1996/chinese/IOI-1996-中文-试题-1.doc
+	renamed:    ioi1996/chinese/Ioi96-2.doc -> ioi1996/chinese/IOI-1996-中文-试题-2.doc
+	renamed:    ioi1996/chinese/Ioi96-3.doc -> ioi1996/chinese/IOI-1996-中文-试题-3.doc
+	renamed:    ioi1996/chinese/Ioi96-4.doc -> ioi1996/chinese/IOI-1996-中文-试题-4.doc
+	renamed:    ioi1996/chinese/Ioi96-5.doc -> ioi1996/chinese/IOI-1996-中文-试题-5.doc
+	renamed:    ioi1996/chinese/Ioi96-6.doc -> ioi1996/chinese/IOI-1996-中文-试题-6.doc
+	renamed:    ioi1996/day1/IOI96G.DOC -> ioi1996/day1/IOI-1996-Day1-G-试题.doc
+	renamed:    ioi1996/day1/IOI96J.DOC -> ioi1996/day1/IOI-1996-Day1-J-试题.doc
+	renamed:    ioi1996/day1/IOI96N.DOC -> ioi1996/day1/IOI-1996-Day1-N-试题.doc
+	renamed:    ioi1996/day2/IOI96M.DOC -> ioi1996/day2/IOI-1996-Day2-M-试题.doc
+	renamed:    ioi1996/day2/IOI96P.DOC -> ioi1996/day2/IOI-1996-Day2-P-试题.doc
+	renamed:    ioi1996/day2/IOI96S.DOC -> ioi1996/day2/IOI-1996-Day2-S-试题.doc
+	renamed:    ioi1997/ioi97_day1.pdf -> ioi1997/IOI-1997-Day1-试题.pdf
+	renamed:    ioi1997/ioi97_day2.pdf -> ioi1997/IOI-1997-Day2-试题.pdf
+	renamed:    ioi1997/data.zip -> ioi1997/IOI-1997-测试数据.zip
+	renamed:    ioi1998/camelot.pdf -> ioi1998/IOI-1998-camelot-试题.pdf
+	renamed:    ioi1998/contact.pdf -> ioi1998/IOI-1998-contact-试题.pdf
+	renamed:    ioi1998/party.pdf -> ioi1998/IOI-1998-party-试题.pdf
+	renamed:    ioi1998/picture.pdf -> ioi1998/IOI-1998-picture-试题.pdf
+	renamed:    ioi1998/polygon.pdf -> ioi1998/IOI-1998-polygon-试题.pdf
+	renamed:    ioi1998/starry.pdf -> ioi1998/IOI-1998-starry-试题.pdf
+	renamed:    ioi1999/Day1/codes.doc -> ioi1999/Day1/IOI-1999-Day1-codes-试题.doc
+	renamed:    ioi1999/Day1/flower.doc -> ioi1999/Day1/IOI-1999-Day1-flower-试题.doc
+	renamed:    ioi1999/Day1/under.doc -> ioi1999/Day1/IOI-1999-Day1-under-试题.doc
+	renamed:    ioi1999/Day1/Day1-data.zip -> ioi1999/Day1/IOI-1999-Day1-测试数据.zip
+	renamed:    ioi1999/Day2/flat.doc -> ioi1999/Day2/IOI-1999-Day2-flat-试题.doc
+	renamed:    ioi1999/Day2/land.doc -> ioi1999/Day2/IOI-1999-Day2-land-试题.doc
+	renamed:    ioi1999/Day2/lights.doc -> ioi1999/Day2/IOI-1999-Day2-lights-试题.doc
+	renamed:    ioi1999/Day2/Day2-data.zip -> ioi1999/Day2/IOI-1999-Day2-测试数据.zip
+	renamed:    ioi2000/day1data.zip -> ioi2000/IOI-2000-Day1-测试数据.zip
+	renamed:    ioi2000/1-1.pdf -> ioi2000/IOI-2000-Day1-试题-1.pdf
+	renamed:    ioi2000/1-2.pdf -> ioi2000/IOI-2000-Day1-试题-2.pdf
+	renamed:    ioi2000/1-3.pdf -> ioi2000/IOI-2000-Day1-试题-3.pdf
+	renamed:    ioi2000/1-4.pdf -> ioi2000/IOI-2000-Day1-试题-4.pdf
+	renamed:    ioi2000/1-5.pdf -> ioi2000/IOI-2000-Day1-试题-5.pdf
+	renamed:    ioi2000/day2data.zip -> ioi2000/IOI-2000-Day2-测试数据.zip
+	renamed:    ioi2000/2-1.pdf -> ioi2000/IOI-2000-Day2-试题-1.pdf
+	renamed:    ioi2000/2-2.pdf -> ioi2000/IOI-2000-Day2-试题-2.pdf
+	renamed:    ioi2000/2-3.pdf -> ioi2000/IOI-2000-Day2-试题-3.pdf
+	renamed:    ioi2000/day2overview.pdf -> ioi2000/IOI-2000-Day2-说明.pdf
+	renamed:    ioi2000/day2msg.pdf -> ioi2000/IOI-2000-Day2-输出格式检查器说明.pdf
+	renamed:    ioi2001/A-2001-7.pdf -> ioi2001/IOI-2001-说明.pdf
+	renamed:    ioi2001/day1/day1-overview.rtf -> ioi2001/day1/IOI-2001-Day1-说明.rtf
+	renamed:    ioi2001/day2/ExtraInformation.rtf -> ioi2001/day2/IOI-2001-Day2-补充说明.rtf
+	renamed:    ioi2001/day2/day2-overview.rtf -> ioi2001/day2/IOI-2001-Day2-说明.rtf
+	renamed:    ioi2002/day1-input+solution.zip -> ioi2002/IOI-2002-Day1-测试数据与题解.zip
+	renamed:    ioi2002/day2-input+solution.zip -> ioi2002/IOI-2002-Day2-测试数据与题解.zip
+	renamed:    ioi2002/day1/IOI-Frog-verD.doc -> ioi2002/day1/IOI-2002-Day1-frog-verD-试题.doc
+	renamed:    ioi2002/day1/IOI-Utopia-verE.doc -> ioi2002/day1/IOI-2002-Day1-utopia-verE-试题.doc
+	renamed:    ioi2002/day1/IOI-XOR-verB.doc -> ioi2002/day1/IOI-2002-Day1-xor-verB-试题.doc
+	renamed:    ioi2002/day2/IOI-Batch-verB.doc -> ioi2002/day2/IOI-2002-Day2-batch-verB-试题.doc
+	renamed:    ioi2002/day2/IOI-Bus-verB.doc -> ioi2002/day2/IOI-2002-Day2-bus-verB-试题.doc
+	renamed:    ioi2002/day2/IOI-Rods-verD.doc -> ioi2002/day2/IOI-2002-Day2-rods-verD-试题.doc
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	rename.log
+

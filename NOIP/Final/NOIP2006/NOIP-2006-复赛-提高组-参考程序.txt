@@ -1,0 +1,413 @@
+
+NOIP2006提高组满分源代码(转自oifans)
+
+energy：
+
+
+
+CODE:
+
+{
+Problem: Noip 2006 Problem 1
+Algorithm: Dynamic Programming
+}
+const
+maxn = 100;
+var
+n, i, j, k, p, ans:longint;
+data:array[1..maxn,1..2] of longint;
+dp:array[1..maxn,1..maxn] of longint;
+
+function max(a, b:longint):longint;
+begin
+if a > b then max:=a else max:=b;
+end;
+
+begin
+assign(input,'energy.in');
+reset(input);
+assign(output,'energy.out');
+rewrite(output);
+
+{ input }
+read(n);
+for i:=1 to n do read(data[i, 1]);
+
+{ Main }
+data[n, 2]:=data[1, 1];
+for i:=1 to n - 1 do data[i, 2]:=data[i+1, 1];
+
+fillchar(dp, sizeof(dp), 0);
+for p:=1 to n-1 do
+  for i:=1 to n do
+  begin
+    j:=(i + p - 1) mod n + 1;
+    if i < j then
+    begin
+    for k:=i to j-1 do
+      dp[i, j]:=max(dp[i, j], dp[i, k] + dp[k+1, j] +
+        data[i, 1] * data[k, 2] * data[j, 2]);
+    end;
+
+    if i > j then
+    begin
+    for k:=i to n-1 do
+      dp[i, j]:=max(dp[i, j], dp[i, k] + dp[k+1, j] +
+        data[i, 1] * data[k, 2] * data[j, 2]);
+
+    dp[i, j]:=max(dp[i, j], dp[i, n] + dp[1, j] +
+      data[i, 1] * data[n, 2] * data[j, 2]);
+
+    for k:=1 to j-1 do
+      dp[i, j]:=max(dp[i, j], dp[i, k] + dp[k+1, j] +
+        data[i, 1] * data[k, 2] * data[j, 2]);
+    end;
+  end;
+
+{ output }
+ans:=-1;
+for i:=1 to n do
+begin
+  j:=(i + n - 2) mod n + 1;
+  ans:=max(ans, dp[i, j]);
+end;
+writeln(ans);
+
+close(input);
+close(output);
+end.
+
+ 
+
+
+JSP：
+
+CODE:
+
+{
+Problem: Noip 2006 Problem 3
+Algorithm: Simulation
+}
+const
+maxn = 20;
+maxm = 20;
+maxs = 5000;
+type
+Tseq = record
+      st, ed:longint;
+      end;
+var
+n, m, i, j, k, ans:longint;
+ma, tim, x, y:longint;
+t:array[1..maxn] of longint;
+data, a:array[1..maxn*maxm] of longint;
+num:array[1..maxn,1..maxm] of longint;
+time:array[1..maxn,1..maxm] of longint;
+free:array[1..maxm,1..maxs] of Tseq;
+count:array[1..maxm] of longint;
+last:array[1..maxn] of longint;
+
+function max(a, b:longint):longint;
+begin
+if a > b then max:=a else max:=b;
+end;
+
+function find_free(k, ma, tim:longint; var x, y:longint):longint;
+var
+i, minx, best:longint;
+begin
+minx:=maxlongint;
+for i:=1 to count[ma] do
+  if free[ma, i].ed - free[ma, i].st >= tim then
+    if last[k] <= free[ma, i].st then
+    begin
+    if free[ma, i].st < minx then
+    begin
+      minx:=free[ma, i].st;
+      best:=i;
+    end;
+    end else
+    if (last[k] > free[ma, i].st) and (last[k] + tim <= free[ma, i].ed) then
+    begin
+    if last[k] < minx then
+    begin
+      minx:=last[k];
+      best:=i;
+    end;
+    end;
+
+find_free:=best;
+x:=minx;
+y:=x + tim;
+end;
+
+begin
+assign(input,'jsp.in');
+reset(input);
+assign(output,'jsp.out');
+rewrite(output);
+
+{ input }
+read(m, n);
+for i:=1 to m * n do read(data[i]);
+for i:=1 to n do
+  for j:=1 to m do read(num[i, j]);
+for i:=1 to n do
+  for j:=1 to m do read(time[i, j]);
+
+{ Main }
+fillchar(t, sizeof(t), 0);
+for i:=1 to n * m do
+begin
+  inc(t[data[i]]);
+  a[i]:=t[data[i]];
+end;
+
+fillchar(last, sizeof(last), 0);
+for i:=1 to m do
+begin
+  count[i]:=1;
+  free[i, 1].st:=0;
+  free[i, 1].ed:=maxlongint;
+end;
+
+for i:=1 to n * m do
+begin
+  ma:=num[data[i], a[i]];
+  tim:=time[data[i], a[i]];
+  k:=find_free(data[i], ma, tim, x, y);
+
+  inc(count[ma]);
+  free[ma, count[ma]].st:=y;
+  free[ma, count[ma]].ed:=free[ma, k].ed;
+  free[ma, k].ed:=x;
+
+  last[data[i]]:=y;
+end;
+
+{ output }
+ans:=-1;
+for i:=1 to m do
+  for j:=1 to count[i] do
+    if free[i, j].ed = maxlongint then
+    ans:=max(ans, free[i, j].st);
+writeln(ans);
+
+close(input);
+close(output);
+end.
+
+
+budget：
+
+CODE:
+
+{
+Problem: Noip 2006 Problem 2
+Algorithm: Dynamic Programming
+}
+
+
+const
+maxm = 61;
+maxn = 32000;
+var
+n, m, i, j, k, ans:longint;
+cost, p, q, cost_tmp, p_tmp:array[1..maxm] of longint;
+data:array[1..maxm] of longint;
+flag:array[1..maxm] of byte;
+dp:array[1..maxm+1,-1..2,0..maxn] of longint;
+
+function max(a, b:longint):longint;
+begin
+if a > b then max:=a else max:=b;
+end;
+
+begin
+assign(input,'budget.in');
+reset(input);
+assign(output,'budget.out');
+rewrite(output);
+
+{ input }
+read(n, m);
+for i:=1 to m do
+  read(cost[i], p[i], q[i]);
+
+{ Main }
+k:=0;
+for i:=1 to m do
+  if q[i] = 0 then
+  begin
+    inc(k);
+    data[k]:=i;
+    flag[k]:=1;
+    for j:=1 to m do
+    if q[j] = i then
+    begin
+      inc(k);
+      data[k]:=j;
+      flag[k]:=0;
+    end;
+  end;
+
+// huan yuan cost
+for i:=1 to m do
+begin
+  cost_tmp[i]:=cost[data[i]];
+  p_tmp[i]:=p[data[i]];
+end;
+cost:=cost_tmp;
+p:=p_tmp;
+
+for i:=1 to m+1 do
+  for j:=-1 to 2 do
+    for k:=0 to n do
+    dp[i, j, k]:=-1;
+
+dp[1, -1, 0]:=0;
+for i:=1 to m do
+  for k:=0 to N do
+  begin
+    if flag[i] = 1 then
+    begin
+    for j:=-1 to 2 do
+    begin
+      if dp[i, j, k] = -1 then continue;
+      if k + cost[i] <= n then
+        dp[i+1, 0, k+cost[i]]:=max(dp[i+1, 0, k+cost[i]], dp[i, j, k] + cost[i] * p[i]);
+
+      dp[i+1, -1, k]:=max(dp[i+1, -1, k], dp[i, j, k]);
+    end;
+    end;
+
+    if flag[i] = 0 then
+    begin
+    for j:=-1 to 2 do
+    begin
+      if dp[i, j, k] = -1 then continue;
+      case j of
+      -1   : dp[i+1, j, k]:=max(dp[i+1, j, k], dp[i, j, k]);
+      0, 1 : begin
+              if k + cost[i] <= n then
+              dp[i+1, j+1, k+cost[i]]:=max(dp[i+1, j+1, k+cost[i]], dp[i, j, k] + cost[i] * p[i]);
+
+              dp[i+1, j, k]:=max(dp[i+1, j, k], dp[i, j, k]);
+            end;
+      2   : dp[i+1, j, k]:=max(dp[i+1, j, k], dp[i, j, k]);
+      end;
+    end;
+    end;
+  end;
+
+{ output }
+ans:=0;
+for j:=-1 to 2 do
+  for k:=0 to n do
+    ans:=max(ans, dp[m+1, j, k]);
+writeln(ans);
+
+close(input);
+close(output);
+end.
+
+
+
+digital
+
+CODE:
+
+const inf               ='digital.in';
+    ouf               ='digital.out';
+    maxn               =512;
+    pw                 :array[1..9]of longint=(2,4,8,16,32,64,128,256,512);
+    mol               =1000000;
+
+type bignum             =array[0..50]of longint;
+
+var   k,w,n,i,p,j           :longint;
+    f                 :array[boolean,0..maxn]of bignum;
+    ans               :bignum;
+
+procedure init;
+begin
+  assign(input,inf);
+  reset(input);
+  readln(k,w);
+  n:=1;
+  for i:=1 to k do
+  n:=n*2;
+  close(input);
+end;
+
+procedure hiadd(var a,b:bignum);
+var i,j,n,tmp             :longint;
+  ta                 :bignum;
+begin
+  if a[0]<b[0] then a[0]:=b[0];
+  for i:=1 to a[0] do
+  a[i]:=a[i]+b[i];
+  for i:=1 to a[0] do
+  begin
+    tmp:=a[i] div mol; inc(a[i+1],tmp);
+    a[i]:=a[i] mod mol;
+  end;
+  if a[a[0]+1]>0 then inc(a[0]);
+end;
+
+procedure cal;
+var     now,last     :boolean;
+      change     :boolean;
+      max       :longint;
+
+begin
+  p:=k;
+  now:=true; last:=false;
+  fillchar(f,sizeof(f),0);
+  for i:=0 to n do
+  begin
+    f[now,i][0]:=1; f[now,i][1]:=1;
+  end;
+  dec(n);
+  if w>k*n then w:=k*n;
+  ans[0]:=1; ans[1]:=0;
+  repeat
+  now:=not now; last:=not last;
+  fillchar(f[now],sizeof(f[now]),0);
+  change:=false;
+  inc(p,k);
+  if p>w then
+    begin
+    dec(p,k); max:=w-p; p:=w;
+    end
+  else max:=k;
+  hiadd(f[now,n-1],f[last,n]);
+  for i:=n-2 downto 0 do
+    begin
+      f[now,i]:=f[now,i+1];
+      hiadd(f[now,i],f[last,i+1]);
+    end;
+  if p>2*k then hiadd(ans,f[now,0]);
+  until p=w;
+  for i:=1 to pw[max]-1 do
+  hiadd(ans,f[now,i]);
+  assign(output,ouf);
+  rewrite(output);
+  n:=ans[0];
+  write(ans[n]);
+  for i:=n-1 downto 1 do
+  begin
+    max:=mol div 10;
+    while max<>0 do
+    begin
+      write(ans[i] div max mod 10);
+      max:=max div 10;
+    end;
+  end;
+  writeln;
+  close(output);
+end;
+
+begin
+init; cal;
+end.
